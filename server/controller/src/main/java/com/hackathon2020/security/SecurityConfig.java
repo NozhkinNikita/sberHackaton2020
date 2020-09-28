@@ -20,6 +20,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import javax.sql.DataSource;
 import java.util.Arrays;
 
 @Configuration
@@ -39,16 +40,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("htonUserDetailService")
     private UserDetailsService userDetailsService;
 
-//    @Override
-//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth
-//                .userDetailsService(userDetailsService)
-//                .passwordEncoder(encoder())
-//                .and()
-//                .authenticationProvider(authenticationProvider())
-//                .jdbcAuthentication()
-//                .dataSource(dataSource);
-//    }
+    @Autowired
+    private DataSource dataSource;
+
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(encoder())
+                .and()
+                .authenticationProvider(authenticationProvider())
+                .jdbcAuthentication()
+                .dataSource(dataSource);
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -56,10 +60,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //HTTP Basic authentication
                 .httpBasic()
                 .and()
-//                .csrf().disable()
-//                .cors().configurationSource(corsConfigurationSource())
+                .csrf().disable()
+                .cors().configurationSource(corsConfigurationSource())
 //                .cors().disable()
-//                .and()
+                .and()
                 .authorizeRequests()
                 .antMatchers("/logout").permitAll()
                 .and()

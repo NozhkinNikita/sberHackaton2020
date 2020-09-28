@@ -1,7 +1,8 @@
 package com.hackathon2020.security.jwt;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -20,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-@Slf4j
 public class JwtRequestFilter extends OncePerRequestFilter {
+    private static Logger log = LoggerFactory.getLogger(JwtRequestFilter.class);
 
     private final UserDetailsService userDetailsService;
 

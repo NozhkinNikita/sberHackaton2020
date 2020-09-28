@@ -1,5 +1,6 @@
 package com.hackathon2020.security;
 
+import com.hackathon2020.domain.Role;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,5 +1,6 @@
 package com.hackathon2020.security;
 
+import com.hackathon2020.domain.Role;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,8 +11,11 @@ import java.util.Collection;
 @EqualsAndHashCode(callSuper = true)
 public class UserDetails extends User {
 
-    @Getter
     private Role role;
+
+    public Role getRole() {
+        return role;
+    }
 
     public UserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);

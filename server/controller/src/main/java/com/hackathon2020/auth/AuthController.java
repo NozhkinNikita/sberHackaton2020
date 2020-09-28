@@ -31,21 +31,6 @@ public class AuthController {
 
     @Autowired
     private TokenCache tokenCache;
-//
-//    private final CredentialUtils credentialUtils;
-//
-//    @Autowired
-//    public AuthController(AuthenticationManager authenticationManager,
-//                          JwtTokenUtil jwtTokenUtil,
-//                          @Qualifier("htonUserDetailService") UserDetailsService userDetailsService,
-//                          TokenCache tokenCache,
-//                          CredentialUtils credentialUtils) {
-//        this.authenticationManager = authenticationManager;
-//        this.jwtTokenUtil = jwtTokenUtil;
-//        this.userDetailsService = userDetailsService;
-//        this.tokenCache = tokenCache;
-//        this.credentialUtils = credentialUtils;
-//    }
 
     @PostMapping(value = "/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginRequest authenticationRequest) throws Exception {
