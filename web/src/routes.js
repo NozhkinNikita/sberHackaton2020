@@ -15,26 +15,23 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-import ReactDOM from "react-dom";
+import Dashboard from "views/Dashboard.jsx";
+import UserProfile from "views/UserProfile.jsx";
+import TableList from "views/TableList.jsx";
+import Typography from "views/Typography.jsx";
+import Icons from "views/Icons.jsx";
+import Maps from "views/Maps.jsx";
+import Notifications from "views/Notifications.jsx";
+import Upgrade from "views/Upgrade.jsx";
 
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import {App} from "./app"
+const dashboardRoutes = [
+  {
+    path: "/table",
+    name: "Услуги",
+    icon: "pe-7s-note2",
+    component: TableList,
+    layout: "/admin"
+  },
+];
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./assets/css/animate.min.css";
-import "./assets/sass/light-bootstrap-dashboard-react.scss?v=1.3.0";
-import "./assets/css/demo.css";
-import "./assets/css/pe-icon-7-stroke.css";
-
-import AdminLayout from "layouts/Admin.jsx";
-
-let hasUser = function (){
-    return localStorage.getItem("user") != null;
-}
-
-ReactDOM.render(
-    <App/>
-  ,
-  document.getElementById("root")
-);
+export default dashboardRoutes;

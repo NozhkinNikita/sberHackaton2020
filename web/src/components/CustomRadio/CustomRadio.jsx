@@ -15,26 +15,19 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-import ReactDOM from "react-dom";
+import React, { Component } from "react";
 
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import {App} from "./app"
+class CustomRadio extends Component {
+  render() {
+    const { number, label, option, name, ...rest } = this.props;
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./assets/css/animate.min.css";
-import "./assets/sass/light-bootstrap-dashboard-react.scss?v=1.3.0";
-import "./assets/css/demo.css";
-import "./assets/css/pe-icon-7-stroke.css";
-
-import AdminLayout from "layouts/Admin.jsx";
-
-let hasUser = function (){
-    return localStorage.getItem("user") != null;
+    return (
+      <div className="radio">
+        <input id={number} name={name} type="radio" value={option} {...rest} />
+        <label htmlFor={number}>{label}</label>
+      </div>
+    );
+  }
 }
 
-ReactDOM.render(
-    <App/>
-  ,
-  document.getElementById("root")
-);
+export default CustomRadio;

@@ -15,26 +15,30 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-import ReactDOM from "react-dom";
+import React, { Component } from "react";
+import { FormGroup, ControlLabel, FormControl, Row } from "react-bootstrap";
 
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import {App} from "./app"
-
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./assets/css/animate.min.css";
-import "./assets/sass/light-bootstrap-dashboard-react.scss?v=1.3.0";
-import "./assets/css/demo.css";
-import "./assets/css/pe-icon-7-stroke.css";
-
-import AdminLayout from "layouts/Admin.jsx";
-
-let hasUser = function (){
-    return localStorage.getItem("user") != null;
+function FieldGroup({ label, ...props }) {
+  return (
+    <FormGroup>
+      <ControlLabel>{label}</ControlLabel>
+      <FormControl {...props} />
+    </FormGroup>
+  );
 }
 
-ReactDOM.render(
-    <App/>
-  ,
-  document.getElementById("root")
-);
+export class FormInputs extends Component {
+  render() {
+    var row = [];
+    for (var i = 0; i < this.props.ncols.length; i++) {
+      row.push(
+        <div key={i} className={this.props.ncols[i]}>
+          <FieldGroup {...this.props.properties[i]} />
+        </div>
+      );
+    }
+    return <Row>{row}</Row>;
+  }
+}
+
+export default FormInputs;

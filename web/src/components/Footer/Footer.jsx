@@ -15,26 +15,27 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-import ReactDOM from "react-dom";
+import React, { Component } from "react";
+import { Grid } from "react-bootstrap";
 
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import {App} from "./app"
-
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./assets/css/animate.min.css";
-import "./assets/sass/light-bootstrap-dashboard-react.scss?v=1.3.0";
-import "./assets/css/demo.css";
-import "./assets/css/pe-icon-7-stroke.css";
-
-import AdminLayout from "layouts/Admin.jsx";
-
-let hasUser = function (){
-    return localStorage.getItem("user") != null;
+class Footer extends Component {
+  render() {
+    return (
+      <footer className="footer">
+        <Grid fluid>
+          <nav className="pull-left">
+          </nav>
+          <p className="copyright pull-right">
+            &copy; {new Date().getFullYear()}{" "}
+            <a>
+              KFMN
+            </a>
+            : first blood
+          </p>
+        </Grid>
+      </footer>
+    );
+  }
 }
 
-ReactDOM.render(
-    <App/>
-  ,
-  document.getElementById("root")
-);
+export default Footer;
