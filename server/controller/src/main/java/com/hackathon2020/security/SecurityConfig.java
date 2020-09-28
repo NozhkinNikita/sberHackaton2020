@@ -58,15 +58,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 //HTTP Basic authentication
-                .httpBasic()
-                .and()
+                .httpBasic().disable()
                 .csrf().disable()
                 .cors().configurationSource(corsConfigurationSource())
 //                .cors().disable()
                 .and()
                 .authorizeRequests()
                 .antMatchers("/logout").permitAll()
+                .antMatchers("/login").permitAll()
                 .and()
+                .formLogin().loginPage("/login").and()
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()

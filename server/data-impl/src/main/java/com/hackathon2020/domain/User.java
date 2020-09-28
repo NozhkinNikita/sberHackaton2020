@@ -23,7 +23,5 @@ public class User {
     @Getter(onMethod = @__(@JsonIgnore))
     private String pwd;
 
-    private Boolean enabled;
-
     private Role role;
 }

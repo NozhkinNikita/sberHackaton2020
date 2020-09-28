@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication(scanBasePackages = {
+        "com.hackathon2020.auth",
         "com.hackathon2020.config",
         "com.hackathon2020.security",
         "com.hackathon2020.security.jwt",
