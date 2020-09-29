@@ -54,7 +54,7 @@
 
         <createTable tableName="MEETING">
             <column name="id" type="NVARCHAR"/>
-            <column name="datetime" type="DATETIME"/>
+            <column name="datetime" type="TIMESTAMP"/>
             <column name="clientId" type="NVARCHAR"/>
             <column name="employeeId" type="NVARCHAR"/>
             <column name="url" type="NVARCHAR"/>

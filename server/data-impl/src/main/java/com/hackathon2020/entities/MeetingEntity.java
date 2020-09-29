@@ -5,12 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Entity
-@Table(name = "Meeting")
+@Table(name = "MEETING")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,10 +18,16 @@ public class MeetingEntity implements BaseEntity {
     @Id
     private String id;
 
-    private String name;
+    private String url;
 
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = ServiceEntity.class, mappedBy = "groupId")
-    private List<ServiceEntity> services;
+    @OneToOne(fetch = FetchType.LAZY, targetEntity = UserEntity.class, mappedBy = "clientId")
+    private UserEntity client;
+
+    @OneToOne(fetch = FetchType.LAZY, targetEntity = UserEntity.class, mappedBy = "employeeId")
+    private UserEntity employee;
+
+    @Column(name="dateTime")
+    private LocalDateTime dateTime;
 
     @Override
     public List<String> getBaseFields() {
@@ -30,6 +36,6 @@ public class MeetingEntity implements BaseEntity {
 
     @Override
     public List<String> getJoinFields() {
-        return Collections.singletonList("services");
+        return Arrays.asList("client", "employee");
     }
 }
