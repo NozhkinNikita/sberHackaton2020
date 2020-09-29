@@ -240,6 +240,7 @@ body > .navbar-collapse{
     position: relative;
     float: right;
     width: $sidebar-width;
+    height: inherit;
 
     > .content{
         padding: 30px 15px;

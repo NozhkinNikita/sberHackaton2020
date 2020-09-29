@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {BrowserRouter, Redirect, Route, Switch,Router} from "react-router-dom";
 import AdminLayout from "./layouts/Admin";
 import Login from "./layouts/Login";
+import JItsiConferece from "./layouts/JItsiConferece";
 
 export class App extends Component {
     constructor() {
@@ -35,7 +36,7 @@ export class App extends Component {
                         <Route path="/admin" render={
 
 
-                            props => <AdminLayout {...props} action={this.setAuth} />
+                            props => <JItsiConferece {...props} action={this.setAuth} />
 
                         }/>
                         <Redirect from="/" to="/admin/dashboard"/>
