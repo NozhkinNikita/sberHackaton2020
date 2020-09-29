@@ -6,18 +6,22 @@ import com.hackathon2020.dao.UserDao;
 import com.hackathon2020.domain.Meeting;
 import com.hackathon2020.domain.Service;
 import com.hackathon2020.domain.User;
+import com.hackathon2020.security.CredentialUtils;
+import com.hackathon2020.security.jwt.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
+@CrossOrigin
 @Controller
-@RequestMapping(value = "/client/service")
+@RequestMapping(value = "/client/services/")
 public class ClientController {
 
     @Autowired
@@ -29,29 +33,39 @@ public class ClientController {
     @Autowired
     private UserDao userDao;
 
-    @GetMapping(value = "/createNowMeeting")
-    public boolean createNowMeeting(String login, String serviceId) {
-        User user = userDao.getByLogin(login);
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private CredentialUtils credentialUtils;
+
+    @PostMapping(value = "/{serviceId}/call")
+    public ResponseEntity<String> createNowMeeting(@PathVariable String serviceId) throws InterruptedException {
+        User user = credentialUtils.getUserInfo();
         Service service = serviceDao.getById(serviceId);
         Meeting meeting = new Meeting(UUID.randomUUID().toString(), null,
                 user, null, service, LocalDateTime.now());
         meetingDao.save(meeting);
-        return true;
+        while (meeting.getEmployee() == null) {
+            TimeUnit.SECONDS.sleep(3);
+            meeting = meetingDao.getById(meeting.getId());
+        }
+        return ResponseEntity.ok(meeting.getUrl());
     }
 
-    @GetMapping(value = "/createScheduledMeeting")
-    public boolean createScheduledMeeting(String login, String serviceId, LocalDateTime dateTime) {
-        User user = userDao.getByLogin(login);
+    @GetMapping(value = "/{serviceId}/callScheduled")
+    public ResponseEntity<String> createScheduledMeeting(@PathVariable String serviceId, LocalDateTime dateTime) {
+        User user = credentialUtils.getUserInfo();
         Service service = serviceDao.getById(serviceId);
         Meeting meeting = new Meeting(UUID.randomUUID().toString(), null,
-                user, null, service, dateTime);
+                user, null, service, LocalDateTime.now());
         meetingDao.save(meeting);
-        return true;
+        return ResponseEntity.ok("123");
     }
 
-    @GetMapping
+    @GetMapping(value= "/getUserScheduledMeetings")
     @Transactional(timeout = 120)
-    public List<Meeting> getMyScheduledMeetings(String login) {
+    public List<Meeting> getUserScheduledMeetings(String login) {
         String userId = userDao.getByLogin(login).getId();
         List<Meeting> meetings = meetingDao.getByUserId(userId);
         return meetings;
