@@ -33,9 +33,6 @@ public class EmployeeController {
     private UserDao userDao;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
     private CredentialUtils credentialUtils;
 
     @PostMapping(value = "/{serviceId}/join")

@@ -49,7 +49,7 @@ public class ClientController {
         return ResponseEntity.ok("123");
     }
 
-    @GetMapping(value = "/createScheduledMeeting")
+    @GetMapping(value = "/{serviceId}/callScheduled")
     public ResponseEntity<String> createScheduledMeeting(@PathVariable String serviceId, LocalDateTime dateTime) {
         User user = credentialUtils.getUserInfo();
         Service service = serviceDao.getById(serviceId);
