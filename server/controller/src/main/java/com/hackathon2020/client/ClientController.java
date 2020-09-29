@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDateTime;
@@ -31,7 +32,7 @@ public class ClientController {
     @Autowired
     private UserDao userDao;
 
-    @GetMapping(value = "/createNowMeeting")
+    @PostMapping(value = "/createNowMeeting")
     public boolean createNowMeeting(String login, String serviceId) {
         User user = userDao.getByLogin(login);
         Service service = serviceDao.getById(serviceId);
@@ -41,7 +42,7 @@ public class ClientController {
         return true;
     }
 
-    @GetMapping(value = "/createScheduledMeeting")
+    @PostMapping(value = "/createScheduledMeeting")
     public boolean createScheduledMeeting(String login, String serviceId, LocalDateTime dateTime) {
         User user = userDao.getByLogin(login);
         Service service = serviceDao.getById(serviceId);
@@ -51,7 +52,7 @@ public class ClientController {
         return true;
     }
 
-    @GetMapping
+    @GetMapping(value= "/getMyScheduledMeetings")
     @Transactional(timeout = 120)
     public List<Meeting> getMyScheduledMeetings(String login) {
         String userId = userDao.getByLogin(login).getId();
