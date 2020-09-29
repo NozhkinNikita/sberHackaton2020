@@ -30,22 +30,23 @@ class TableList extends Component {
   }
   componentDidMount() {
 
-    // const requestOptions = {
-    //   method: 'GET',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Authorization': 'Kfmn ' + localStorage.getItem('token')
-    //   },
-    // };
-    //
-    // fetch(host + `/client/services`, requestOptions)
-    //     .then(response => {
-    //       console.log(response.json()
-    //           .then(user => {
-    //             console.log(user);
-    //
-    //           }))
-    //     });
+
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Kfmn ' + localStorage.getItem('token')
+      },
+    };
+
+    fetch(host + `/client/services`, requestOptions)
+        .then(response => {
+          console.log(response.json()
+              .then(user => {
+                console.log(user);
+
+              }))
+        });
 
 alert(1)
 
