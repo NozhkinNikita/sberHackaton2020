@@ -1,16 +1,11 @@
 package com.hackathon2020.client;
 
-import com.hackathon2020.dao.GroupDao;
 import com.hackathon2020.dao.MeetingDao;
 import com.hackathon2020.dao.ServiceDao;
 import com.hackathon2020.dao.UserDao;
-import com.hackathon2020.domain.Group;
 import com.hackathon2020.domain.Meeting;
 import com.hackathon2020.domain.Service;
 import com.hackathon2020.domain.User;
-import com.hackathon2020.entities.MeetingEntity;
-import com.hackathon2020.entities.UserEntity;
-import org.hibernate.id.UUIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
