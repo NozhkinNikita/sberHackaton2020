@@ -9,10 +9,7 @@ import com.hackathon2020.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,16 +30,16 @@ public class ClientController {
     private UserDao userDao;
 
     @PostMapping(value = "/createNowMeeting")
-    public boolean createNowMeeting(String login, String serviceId) {
-        User user = userDao.getByLogin(login);
-        Service service = serviceDao.getById(serviceId);
+    public boolean createNowMeeting(MeetingRequest meetingRequest) {
+        User user = userDao.getByLogin(meetingRequest.getLogin());
+        Service service = serviceDao.getById(meetingRequest.getServiceId());
         Meeting meeting = new Meeting(UUID.randomUUID().toString(), null,
                 user, null, service, LocalDateTime.now());
         meetingDao.save(meeting);
         return true;
     }
 
-    @PostMapping(value = "/createScheduledMeeting")
+    @GetMapping(value = "/createScheduledMeeting")
     public boolean createScheduledMeeting(String login, String serviceId, LocalDateTime dateTime) {
         User user = userDao.getByLogin(login);
         Service service = serviceDao.getById(serviceId);
