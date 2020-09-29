@@ -4,26 +4,33 @@ import com.hackathon2020.dao.GroupDao;
 import com.hackathon2020.domain.Group;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Controller
-@RequestMapping(value = "/client/group")
+@RequestMapping(value = "/client/service")
 public class ClientController {
 
     @Autowired
     private GroupDao groupDao;
 
     @GetMapping
-    public List<Group> getGroups() {
-        return groupDao.getAll();
+    public boolean createNowMeeting(String userId, String serviceId) {
+
+        return true;
+    }
+
+    @GetMapping
+    public boolean createScheduledMeeting(String login, String serviceId, LocalDateTime dateTime) {
+        return true;
     }
 
     @GetMapping(value = "/{id}")
-    public Group getGroupById(@PathVariable String id) {
-        return groupDao.getById(id);
+    @Transactional(timeout = 120)
+    public Group getMyScheduledMeetings(String login) {
+
     }
 }
