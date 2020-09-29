@@ -221,6 +221,7 @@ class Login extends Component {
                                     .then(user => {
                                         localStorage.setItem('user', JSON.stringify(user));
                                         localStorage.setItem('token',user.token);
+                                        localStorage.setItem('role',user.role);
                                         this.props.action(true);
                                     }))
                                 console.log();
