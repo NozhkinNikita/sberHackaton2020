@@ -17,6 +17,7 @@
 */
 import React, { Component } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
+import { NavItem, Nav, NavDropdown, MenuItem } from "react-bootstrap";
 
 import Card from "components/Card/Card.jsx";
 import {thArray, tdArray, host} from "variables/Variables.jsx";
@@ -99,6 +100,44 @@ let _this = this;
 
   }
 
+    createMeeting() {
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Kfmn ' + localStorage.getItem('token'),
+                'Authentication': 'Kfmn ' + localStorage.getItem('token')
+            },
+            body: ""
+        };
+        let serviceId = "1";
+        fetch(host + "/client/services/" + serviceId + "/call" , requestOptions)
+            .then(response => {
+                alert("fuck yeah!!!");
+                response.json().then(json => {
+                    console.log(json);
+                })
+            });
+    }
+
+    joinMeeting() {
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Kfmn ' + localStorage.getItem('token'),
+                'Authentication': 'Kfmn ' + localStorage.getItem('token')
+            },
+            body: ""
+        };
+        let meetingId = "1";
+        fetch(host + "/employee/services/" + meetingId + "/join" , requestOptions)
+            .then(response => {
+                localStorage.clear();
+            });
+    }
+
+
   render() {
     return (
       <div className="content">
@@ -114,6 +153,14 @@ let _this = this;
                 ctTableFullWidth
                 ctTableResponsive
                 content={
+                    <div>
+                        <div>
+                            <Nav pullRight>
+                                <NavItem onClick={()=>{this.createMeeting()}} event Key={3} href="#">
+                                    Создать встречу
+                                </NavItem>
+                            </Nav>
+                        </div>
                   <Table striped hover>
                     <thead>
                       <tr>
@@ -134,6 +181,7 @@ let _this = this;
                       })}
                     </tbody>
                   </Table>
+                    </div>
                 }
               />
             </Col>
@@ -173,6 +221,12 @@ let _this = this;
             {!this.state.isClient &&
             <div>
 
+                <Nav pullRight>
+                    <NavItem onClick={()=>{this.joinMeeting()}} event Key={3} href="#">
+                        Присоединиться к встрече
+                    </NavItem>
+                </Nav>
+
               <Col md={12}>
                 <Card
                     title="Заявки"
@@ -180,7 +234,9 @@ let _this = this;
                     ctTableFullWidth
                     ctTableResponsive
                     content={
-                      <div><div className={"list-group"}>{this.printCalls()}</div></div>
+                      <div>
+                          <div className={"list-group"}>{this.printCalls()}</div>
+                      </div>
                     }
                 />
               </Col>
