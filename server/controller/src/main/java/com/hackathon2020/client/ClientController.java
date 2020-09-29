@@ -52,7 +52,7 @@ public class ClientController {
         return true;
     }
 
-    @GetMapping
+    @GetMapping(value= "/getMyScheduledMeetings")
     @Transactional(timeout = 120)
     public List<Meeting> getMyScheduledMeetings(String login) {
         String userId = userDao.getByLogin(login).getId();
