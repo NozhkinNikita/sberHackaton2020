@@ -5,6 +5,10 @@ import com.hackathon2020.dao.MeetingDao;
 import com.hackathon2020.dao.UserDao;
 import com.hackathon2020.domain.Group;
 import com.hackathon2020.domain.Meeting;
+import com.hackathon2020.domain.User;
+import com.hackathon2020.entities.MeetingEntity;
+import com.hackathon2020.entities.UserEntity;
+import org.hibernate.id.UUIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping(value = "/client/service")
@@ -28,12 +33,20 @@ public class ClientController {
     private UserDao userDao;
 
     @GetMapping
-    public boolean createNowMeeting(String userId, String serviceId) {
+    public boolean createNowMeeting(String login, String serviceId) {
+        User userEntity = userDao.getByLogin(login);
+        Meeting meeting = new Meeting(UUID.randomUUID().toString(), null,
+                userEntity, null, LocalDateTime.now());
+        meetingDao.save(meeting);
         return true;
     }
 
     @GetMapping
     public boolean createScheduledMeeting(String login, String serviceId, LocalDateTime dateTime) {
+        User userEntity = userDao.getByLogin(login);
+        Meeting meeting = new Meeting(UUID.randomUUID().toString(), null,
+                userEntity, null, dateTime);
+        meetingDao.save(meeting);
         return true;
     }
 
