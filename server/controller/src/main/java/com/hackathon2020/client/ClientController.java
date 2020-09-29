@@ -50,7 +50,7 @@ public class ClientController {
             TimeUnit.SECONDS.sleep(3);
             meeting = meetingDao.getById(meeting.getId());
         }
-        return ResponseEntity.ok("123");
+        return ResponseEntity.ok(meeting.getUrl());
     }
 
     @GetMapping(value = "/{serviceId}/callScheduled")
