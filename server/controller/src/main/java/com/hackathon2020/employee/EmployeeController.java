@@ -47,7 +47,7 @@ public class EmployeeController {
         meeting.setEmployee(user);
         String url = "joinHere";
         meeting.setUrl(url);
-        meetingDao.save(meeting);
+        meetingDao.update(meeting);
         return ResponseEntity.ok(url);
     }
 
