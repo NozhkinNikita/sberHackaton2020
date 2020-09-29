@@ -10,9 +10,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>controller</artifactId>
+    <packaging>war</packaging>
 
     <dependencies>
         <!-- Internal dependencies -->
+        <dependency>
+            <groupId>com.hackathon2020</groupId>
+            <artifactId>data-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hackathon2020</groupId>
+            <artifactId>data-impl</artifactId>
+        </dependency>
 
         <!-- Spring web -->
         <dependency>
@@ -65,6 +75,11 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
         </dependency>
     </dependencies>
 
