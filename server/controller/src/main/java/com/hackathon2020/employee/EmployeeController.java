@@ -7,7 +7,6 @@ import com.hackathon2020.domain.Meeting;
 import com.hackathon2020.domain.Service;
 import com.hackathon2020.domain.User;
 import com.hackathon2020.security.CredentialUtils;
-import com.hackathon2020.security.jwt.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,6 +26,9 @@ public class EmployeeController {
     private ServiceDao serviceDao;
 
     @Autowired
+    private ServiceDao groupDao;
+
+    @Autowired
     private MeetingDao meetingDao;
 
     @Autowired
@@ -35,30 +37,35 @@ public class EmployeeController {
     @Autowired
     private CredentialUtils credentialUtils;
 
-    @PostMapping(value = "/{serviceId}/join")
+    @PostMapping(value = "/{meetingId}/join")
     public ResponseEntity<String> joinMeeting(@PathVariable String meetingId) {
         User user = credentialUtils.getUserInfo();
+        if (meetingId.equals("1") && meetingDao.getAll().size() != 0) {
+            meetingId = meetingDao.getAll().get(0).getId();
+        }
         Meeting meeting = meetingDao.getById(meetingId);
         meeting.setEmployee(user);
+        String url = "joinHere";
+        meeting.setUrl(url);
         meetingDao.save(meeting);
-        return ResponseEntity.ok("321");
+        return ResponseEntity.ok(url);
     }
 
-    @GetMapping(value = "/{serviceId}/join")
-    public ResponseEntity<String> joinScheduledMeeting(@PathVariable String serviceId, LocalDateTime dateTime) {
+    @GetMapping(value = "/{meetingId}/joinScheduled")
+    public ResponseEntity<String> joinScheduledMeeting(@PathVariable String meetingId, LocalDateTime dateTime) {
         User user = credentialUtils.getUserInfo();
-        Service service = serviceDao.getById(serviceId);
+        Service service = serviceDao.getById(meetingId);
         Meeting meeting = new Meeting(UUID.randomUUID().toString(), null,
                 user, null, service, LocalDateTime.now());
         meetingDao.save(meeting);
         return ResponseEntity.ok("123");
     }
 
-    @GetMapping(value= "/getUserScheduledMeetings")
+    @GetMapping(value= "/getAccessibleMeetings")
     @Transactional(timeout = 120)
-    public List<Meeting> getUserScheduledMeetings(String login) {
+    public List<Meeting> getAccessibleMeetings(String login) {
         String userId = userDao.getByLogin(login).getId();
-        List<Meeting> meetings = meetingDao.getByUserId(userId);
+        List<Meeting> meetings = meetingDao.getAll();
         return meetings;
     }
 }

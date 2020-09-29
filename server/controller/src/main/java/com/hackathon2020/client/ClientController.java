@@ -14,10 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @CrossOrigin
 @Controller
@@ -40,12 +40,16 @@ public class ClientController {
     private CredentialUtils credentialUtils;
 
     @PostMapping(value = "/{serviceId}/call")
-    public ResponseEntity<String> createNowMeeting(@PathVariable String serviceId) {
+    public ResponseEntity<String> createNowMeeting(@PathVariable String serviceId) throws InterruptedException {
         User user = credentialUtils.getUserInfo();
         Service service = serviceDao.getById(serviceId);
         Meeting meeting = new Meeting(UUID.randomUUID().toString(), null,
                 user, null, service, LocalDateTime.now());
         meetingDao.save(meeting);
+        while (meeting.getEmployee() == null) {
+            TimeUnit.SECONDS.sleep(3);
+            meeting = meetingDao.getById(meeting.getId());
+        }
         return ResponseEntity.ok("123");
     }
 
