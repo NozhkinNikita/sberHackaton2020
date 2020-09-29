@@ -19,9 +19,38 @@ import React, { Component } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 
 import Card from "components/Card/Card.jsx";
-import { thArray, tdArray } from "variables/Variables.jsx";
+import {thArray, tdArray, host} from "variables/Variables.jsx";
 
 class TableList extends Component {
+
+  constructor() {
+    super();
+
+    this.state = {groups : []}
+  }
+  componentDidMount() {
+
+    // const requestOptions = {
+    //   method: 'GET',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Authorization': 'Kfmn ' + localStorage.getItem('token')
+    //   },
+    // };
+    //
+    // fetch(host + `/client/services`, requestOptions)
+    //     .then(response => {
+    //       console.log(response.json()
+    //           .then(user => {
+    //             console.log(user);
+    //
+    //           }))
+    //     });
+
+alert(1)
+
+  }
+
   render() {
     return (
       <div className="content">

@@ -598,7 +598,7 @@ var legendBar = {
   types: ["info", "danger"]
 };
 
-var host = "";
+var host = "http://25.68.32.7:8080";
 
 module.exports = {
   style, // For notifications (App container and Notifications view)
