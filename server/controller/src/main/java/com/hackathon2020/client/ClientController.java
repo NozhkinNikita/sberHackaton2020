@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/client/groups")
+@RequestMapping(value = "/client/group")
 public class ClientController {
 
     @Autowired
