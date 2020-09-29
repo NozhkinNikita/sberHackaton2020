@@ -6,10 +6,65 @@
 
     <changeSet author="Filip J. Fry" id="2">
         <insert tableName="USER">
+            <column name="id" valueNumeric="0"/>
+            <column name="login" value="login"/>
+            <column name="pwd" value="pwd"/>
+            <column name="role" value="CLIENT"/>
+        </insert>
+
+        <insert tableName="USER">
             <column name="id" valueNumeric="1"/>
             <column name="login" value="kfmn_login"/>
             <column name="pwd" value="kfmn_pwd"/>
             <column name="role" value="CLIENT"/>
+        </insert>
+
+        <insert tableName="USER">
+            <column name="id" valueNumeric="2"/>
+            <column name="login" value="kfmn_emp2"/>
+            <column name="pwd" value="kfmn_pwd"/>
+            <column name="role" value="EMPLOYEE"/>
+        </insert>
+
+        <insert tableName="USER">
+            <column name="id" valueNumeric="3"/>
+            <column name="login" value="kfmn_emp3"/>
+            <column name="pwd" value="kfmn_pwd"/>
+            <column name="role" value="EMPLOYEE"/>
+        </insert>
+
+        <insert tableName="GROUP">
+            <column name="id" valueNumeric="1"/>
+            <column name="name" value="group1"/>
+        </insert>
+
+        <insert tableName="GROUP">
+            <column name="id" valueNumeric="2"/>
+            <column name="name" value="group2"/>
+        </insert>
+
+        <insert tableName="SERVICE">
+            <column name="id" valueNumeric="1"/>
+            <column name="name" value="servise1"/>
+            <column name="groupId" value="1"/>
+        </insert>
+
+        <insert tableName="SERVICE">
+            <column name="id" valueNumeric="2"/>
+            <column name="name" value="servise2"/>
+            <column name="groupId" value="2"/>
+        </insert>
+
+        <insert tableName="USER_GROUP">
+            <column name="id" valueNumeric="1"/>
+            <column name="userId" value="2"/>
+            <column name="groupId" value="1"/>
+        </insert>
+
+        <insert tableName="USER_GROUP">
+            <column name="id" valueNumeric="2"/>
+            <column name="userId" value="3"/>
+            <column name="groupId" value="2"/>
         </insert>
     </changeSet>
 </databaseChangeLog>

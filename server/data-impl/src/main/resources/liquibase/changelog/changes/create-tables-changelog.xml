@@ -55,5 +55,26 @@
             <dropTable tableName="user"/>
         </rollback>
 
+        <createTable tableName="USER_GROUP">
+            <column name="id" type="NVARCHAR"/>
+            <column name="userId" type="NVARCHAR"/>
+            <column name="groupId" type="NVARCHAR"/>
+        </createTable>
+
+        <addNotNullConstraint tableName="USER_GROUP" columnName="id" columnDataType="NVARCHAR"/>
+        <addPrimaryKey tableName="USER_GROUP" columnNames="id" constraintName="USER_GROUP_PKEY"/>
+
+        <addForeignKeyConstraint baseTableName="USER_GROUP"
+                                 baseColumnNames="userId"
+                                 constraintName="FK_USER_GROUP_USER"
+                                 referencedTableName="USER"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="USER_GROUP"
+                                 baseColumnNames="groupId"
+                                 constraintName="FK_USER_GROUP_GROUP"
+                                 referencedTableName="GROUP"
+                                 referencedColumnNames="id"/>
+
     </changeSet>
 </databaseChangeLog>
