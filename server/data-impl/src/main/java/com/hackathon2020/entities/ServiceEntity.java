@@ -20,10 +20,11 @@ public class ServiceEntity implements BaseEntity {
     @Id
     private String id;
     private String name;
+    private String groupId;
 
     @Override
     public List<String> getBaseFields() {
-        return Arrays.asList("id", "name");
+        return Arrays.asList("id", "name", "groupId");
     }
 
     @Override

@@ -24,7 +24,7 @@ public class GroupEntity implements BaseEntity {
 
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = ServiceEntity.class, mappedBy = "scanId")
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = ServiceEntity.class, mappedBy = "groupId")
     private List<ServiceEntity> services;
 
     @Override

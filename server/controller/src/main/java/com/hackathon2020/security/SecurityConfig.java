@@ -1,5 +1,6 @@
 package com.hackathon2020.security;
 
+import com.hackathon2020.domain.Role;
 import com.hackathon2020.security.jwt.JwtAuthenticationEntryPoint;
 import com.hackathon2020.security.jwt.JwtRequestFilter;
 import com.hackathon2020.security.jwt.LogoutSuccessHandler;
@@ -67,6 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/logout").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/client/**").hasRole(Role.CLIENT.name())
                 .and()
                 .formLogin().loginPage("/login").and()
                 .exceptionHandling()
