@@ -27,21 +27,23 @@ public abstract class Converter<D, E extends BaseEntity> {
     }
 
     private void convert(Object from, Object to) {
-        Class fromClass = from.getClass().equals(getDomainClass()) ? getDomainClass() : getEntityClass();
-        Class toClass = to.getClass().equals(getDomainClass()) ? getDomainClass() : getEntityClass();
+        if (from != null) {
+            Class fromClass = from.getClass().equals(getDomainClass()) ? getDomainClass() : getEntityClass();
+            Class toClass = to.getClass().equals(getDomainClass()) ? getDomainClass() : getEntityClass();
 
-        Arrays.stream(toClass.getDeclaredFields()).forEach(field -> {
-            try {
-                PropertyDescriptor pdFrom = new PropertyDescriptor(field.getName(), fromClass);
-                PropertyDescriptor pdTo = new PropertyDescriptor(field.getName(), toClass);
-                Object valueInToObject = pdTo.getReadMethod().invoke(to);
-                if (valueInToObject == null) {
-                    Object value = pdFrom.getReadMethod().invoke(from);
-                    pdTo.getWriteMethod().invoke(to, value);
+            Arrays.stream(toClass.getDeclaredFields()).forEach(field -> {
+                try {
+                    PropertyDescriptor pdFrom = new PropertyDescriptor(field.getName(), fromClass);
+                    PropertyDescriptor pdTo = new PropertyDescriptor(field.getName(), toClass);
+                    Object valueInToObject = pdTo.getReadMethod().invoke(to);
+                    if (valueInToObject == null) {
+                        Object value = pdFrom.getReadMethod().invoke(from);
+                        pdTo.getWriteMethod().invoke(to, value);
+                    }
+                } catch (Exception e) {
+                    throw new IllegalArgumentException(e);
                 }
-            } catch (Exception e) {
-                throw new IllegalArgumentException(e);
-            }
-        });
+            });
+        }
     }
 }

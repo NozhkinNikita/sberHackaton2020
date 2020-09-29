@@ -26,6 +26,9 @@ public class MeetingEntity implements BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = UserEntity.class)
     private UserEntity employee;
 
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = ServiceEntity.class)
+    private ServiceEntity service;
+
     @Column(name="dateTime")
     private LocalDateTime dateTime;
 

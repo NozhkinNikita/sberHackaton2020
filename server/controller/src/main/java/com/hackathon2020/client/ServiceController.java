@@ -38,8 +38,4 @@ public class ServiceController {
         return new ResponseEntity<>(serviceDao.getByGroupId(groupId), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/{id}/call")
-    public ResponseEntity<?> call(@PathVariable String id) {
-        return null;
-    }
 }

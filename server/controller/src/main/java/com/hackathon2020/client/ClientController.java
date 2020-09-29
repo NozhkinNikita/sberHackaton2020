@@ -6,8 +6,10 @@ import com.hackathon2020.dao.UserDao;
 import com.hackathon2020.domain.Meeting;
 import com.hackathon2020.domain.Service;
 import com.hackathon2020.domain.User;
+import com.hackathon2020.security.CredentialUtils;
 import com.hackathon2020.security.jwt.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -34,16 +36,17 @@ public class ClientController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    @Autowired
+    private CredentialUtils credentialUtils;
+
     @PostMapping(value = "/{serviceId}/call")
-    public String createNowMeeting(@PathVariable String serviceId, HttpServletRequest request) {
-        String token = request.getHeaders("Authorization").nextElement().substring(5);
-        String login = jwtTokenUtil.getUsernameFromToken(token);
-        User user = userDao.getByLogin(login);
+    public ResponseEntity<String> createNowMeeting(@PathVariable String serviceId) {
+        User user = credentialUtils.getUserInfo();
         Service service = serviceDao.getById(serviceId);
         Meeting meeting = new Meeting(UUID.randomUUID().toString(), null,
                 user, null, service, LocalDateTime.now());
         meetingDao.save(meeting);
-        return "true";
+        return ResponseEntity.ok("123");
     }
 
     @GetMapping(value = "/createScheduledMeeting")
