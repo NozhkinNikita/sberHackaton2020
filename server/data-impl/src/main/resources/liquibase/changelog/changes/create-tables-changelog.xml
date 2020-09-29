@@ -51,6 +51,34 @@
                                  referencedTableName="GROUP"
                                  referencedColumnNames="id"/>
 
+
+        <createTable tableName="MEETING">
+            <column name="id" type="NVARCHAR"/>
+            <column name="datetime" type="TIMESTAMP"/>
+            <column name="clientId" type="NVARCHAR"/>
+            <column name="employeeId" type="NVARCHAR"/>
+            <column name="serviceId" type="NVARCHAR"/>
+            <column name="url" type="NVARCHAR"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="MEETING"
+                                 baseColumnNames="clientId"
+                                 constraintName="FK_MEETING_CLIENT"
+                                 referencedTableName="USER"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="MEETING"
+                                 baseColumnNames="employeeId"
+                                 constraintName="FK_MEETING_EMPLOYEE"
+                                 referencedTableName="USER"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="MEETING"
+                                 baseColumnNames="serviceId"
+                                 constraintName="FK_MEETING_SERVICE"
+                                 referencedTableName="SERVICE"
+                                 referencedColumnNames="id"/>
+
         <rollback>
             <dropTable tableName="user"/>
         </rollback>
