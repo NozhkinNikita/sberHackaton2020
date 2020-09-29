@@ -101,8 +101,6 @@ let _this = this;
   }
 
     createMeeting() {
-        console.log(localStorage);
-
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -112,18 +110,17 @@ let _this = this;
             },
             body: ""
         };
-
         let serviceId = "1";
         fetch(host + "/client/services/" + serviceId + "/call" , requestOptions)
             .then(response => {
                 alert("fuck yeah!!!");
-                localStorage.clear();
+                response.json().then(json => {
+                    console.log(json);
+                })
             });
     }
 
     joinMeeting() {
-        console.log(localStorage.getItem('token'));
-
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -133,7 +130,6 @@ let _this = this;
             },
             body: ""
         };
-
         let meetingId = "1";
         fetch(host + "/employee/services/" + meetingId + "/join" , requestOptions)
             .then(response => {

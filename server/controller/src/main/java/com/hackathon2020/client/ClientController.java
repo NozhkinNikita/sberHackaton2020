@@ -40,7 +40,7 @@ public class ClientController {
     private CredentialUtils credentialUtils;
 
     @PostMapping(value = "/{serviceId}/call")
-    public ResponseEntity<String> createNowMeeting(@PathVariable String serviceId) throws InterruptedException {
+    public ResponseEntity<?> createNowMeeting(@PathVariable String serviceId) throws InterruptedException {
         User user = credentialUtils.getUserInfo();
         Service service = serviceDao.getById(serviceId);
         Meeting meeting = new Meeting(UUID.randomUUID().toString(), null,
@@ -51,7 +51,7 @@ public class ClientController {
             meeting = meetingDao.getById(meeting.getId());
             System.out.println("qqqq");
         }
-        return ResponseEntity.ok(meeting.getUrl());
+        return ResponseEntity.ok(new MeetingResponse(meeting.getUrl()));
     }
 
     @GetMapping(value = "/{serviceId}/callScheduled")
