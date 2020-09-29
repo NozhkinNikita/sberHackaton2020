@@ -71,7 +71,7 @@ let _this = this;
 
         var send = {
           command: command,
-          message: vspId
+          message: localStorage.getItem("login")
         }
         sock.send(JSON.stringify(send));
 
