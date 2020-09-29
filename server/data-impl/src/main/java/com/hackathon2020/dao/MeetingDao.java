@@ -4,13 +4,17 @@ import com.hackathon2020.dao.filters.SearchCondition;
 import com.hackathon2020.dao.filters.SimpleCondition;
 import com.hackathon2020.domain.Meeting;
 import com.hackathon2020.entities.MeetingEntity;
-import com.hackathon2020.entities.MeetingEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 public class MeetingDao extends CommonDao<Meeting, MeetingEntity> {
+
+    @Autowired
+    private UserGroupDao userGroupDao;
+
     @Override
     public Class<MeetingEntity> getEntityClass() {
         return MeetingEntity.class;
@@ -44,5 +48,17 @@ public class MeetingDao extends CommonDao<Meeting, MeetingEntity> {
                 .build();
         return getByCondition(condition);
     }
+
+//    public List<Meeting> getActiveMeetingsByEmployeeLogin(String login) {
+//        EntityManager em = getEntityManager();
+//        try {
+//            ComplexCondition condition = new ComplexCondition.Builder()
+//
+//                    .build()
+//        } finally {
+//            em.close();
+//        }
+//
+//    }
 
 }

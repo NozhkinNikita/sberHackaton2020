@@ -70,6 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/logout").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/socket").permitAll()
                 .antMatchers("/client/**").hasRole(Role.CLIENT.name())
                 .antMatchers("/employee/**").hasRole(Role.EMPLOYEE.name())
                 .and()
