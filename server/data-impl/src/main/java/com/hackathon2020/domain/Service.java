@@ -6,4 +6,5 @@ import lombok.Data;
 public class Service {
     private String id;
     private String name;
+    private String groupId;
 }

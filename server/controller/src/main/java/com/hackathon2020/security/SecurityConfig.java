@@ -69,14 +69,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").permitAll()
                 .antMatchers("/client/**").hasRole(Role.CLIENT.name())
                 .and()
-                .formLogin().loginPage("/login").and()
+//                .formLogin().loginPage("/login").and()
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
-                .logout()
-                .logoutUrl("/logout").permitAll()
-                .addLogoutHandler(logoutHandler)
-                .and()
+//                .logout()
+//                .logoutUrl("/logout").permitAll()
+//                .addLogoutHandler(logoutHandler)
+//                .and()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
