@@ -113,9 +113,9 @@ let _this = this;
         let serviceId = "1";
         fetch(host + "/client/services/" + serviceId + "/call" , requestOptions)
             .then(response => {
-                alert("fuck yeah!!!");
                 response.json().then(json => {
                     console.log(json);
+                    window.location.replace(json.url);
                 })
             });
     }
@@ -133,7 +133,10 @@ let _this = this;
         let meetingId = "1";
         fetch(host + "/employee/services/" + meetingId + "/join" , requestOptions)
             .then(response => {
-                localStorage.clear();
+                response.json().then(json => {
+                    console.log(json);
+                    window.location.replace(json.url);
+                });
             });
     }
 

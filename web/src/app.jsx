@@ -33,12 +33,12 @@ export class App extends Component {
 
                 <BrowserRouter>
                     <Switch>
+                        <Route path="/admin/fishingsite/:roomName" render={
+                            props => <JItsiConferece {...props} action={this.setAuth} />
+                        }/>
                         <Route path="/admin" render={
                             props => <AdminLayout {...props} action={this.setAuth} />
 
-                        }/>
-                        <Route path="/fishingsite/:roomName" render={
-                            props => <JItsiConferece {...props} action={this.setAuth} />
                         }/>
                         <Redirect from="/" to="/admin/dashboard"/>
                     </Switch>

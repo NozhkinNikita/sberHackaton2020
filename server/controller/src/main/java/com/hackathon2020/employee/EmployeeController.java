@@ -1,5 +1,6 @@
 package com.hackathon2020.employee;
 
+import com.hackathon2020.client.MeetingResponse;
 import com.hackathon2020.dao.MeetingDao;
 import com.hackathon2020.dao.ServiceDao;
 import com.hackathon2020.dao.UserDao;
@@ -38,17 +39,17 @@ public class EmployeeController {
     private CredentialUtils credentialUtils;
 
     @PostMapping(value = "/{meetingId}/join")
-    public ResponseEntity<String> joinMeeting(@PathVariable String meetingId) {
+    public ResponseEntity<MeetingResponse> joinMeeting(@PathVariable String meetingId) {
         User user = credentialUtils.getUserInfo();
         if (meetingId.equals("1") && meetingDao.getAll().size() != 0) {
             meetingId = meetingDao.getAll().get(0).getId();
         }
         Meeting meeting = meetingDao.getById(meetingId);
         meeting.setEmployee(user);
-        String url = "joinHere";
+        String url = "fishingsite/" + UUID.randomUUID().toString();
         meeting.setUrl(url);
         meetingDao.update(meeting);
-        return ResponseEntity.ok(url);
+        return ResponseEntity.ok(new MeetingResponse(url));
     }
 
     @GetMapping(value = "/{meetingId}/joinScheduled")
