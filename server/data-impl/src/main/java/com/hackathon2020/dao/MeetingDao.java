@@ -35,12 +35,12 @@ public class MeetingDao extends CommonDao<Meeting, MeetingEntity> {
         return getByCondition(condition);
     }
 
-    public List<Meeting> getByGroupId(String groupId) {
+    public List<Meeting> getByUserId(String userId) {
         SimpleCondition condition = new SimpleCondition
                 .Builder()
-                .setSearchField("groupId")
+                .setSearchField("userId")
                 .setSearchCondition(SearchCondition.EQUALS)
-                .setSearchValue(groupId)
+                .setSearchValue(userId)
                 .build();
         return getByCondition(condition);
     }
