@@ -599,6 +599,7 @@ var legendBar = {
 };
 
 var host = "http://25.68.32.7:8080";
+var hostSocket = "ws://25.68.32.7:8080";
 
 module.exports = {
   style, // For notifications (App container and Notifications view)
@@ -615,5 +616,6 @@ module.exports = {
   optionsBar,
   responsiveBar,
   legendBar, // For charts (Dashboard view)
-  host
+  host,
+  hostSocket
 };
