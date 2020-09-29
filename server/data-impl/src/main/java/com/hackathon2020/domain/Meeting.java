@@ -13,5 +13,6 @@ public class Meeting {
     private String url;
     private User client;
     private User employee;
+    private Service service;
     private LocalDateTime dateTime;
 }

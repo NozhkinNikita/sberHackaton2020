@@ -2,9 +2,11 @@ package com.hackathon2020.client;
 
 import com.hackathon2020.dao.GroupDao;
 import com.hackathon2020.dao.MeetingDao;
+import com.hackathon2020.dao.ServiceDao;
 import com.hackathon2020.dao.UserDao;
 import com.hackathon2020.domain.Group;
 import com.hackathon2020.domain.Meeting;
+import com.hackathon2020.domain.Service;
 import com.hackathon2020.domain.User;
 import com.hackathon2020.entities.MeetingEntity;
 import com.hackathon2020.entities.UserEntity;
@@ -24,7 +26,7 @@ import java.util.UUID;
 public class ClientController {
 
     @Autowired
-    private GroupDao groupDao;
+    private ServiceDao serviceDao;
 
     @Autowired
     private MeetingDao meetingDao;
@@ -34,18 +36,20 @@ public class ClientController {
 
     @GetMapping
     public boolean createNowMeeting(String login, String serviceId) {
-        User userEntity = userDao.getByLogin(login);
+        User user = userDao.getByLogin(login);
+        Service service = serviceDao.getById(serviceId);
         Meeting meeting = new Meeting(UUID.randomUUID().toString(), null,
-                userEntity, null, LocalDateTime.now());
+                user, null, service, LocalDateTime.now());
         meetingDao.save(meeting);
         return true;
     }
 
     @GetMapping
     public boolean createScheduledMeeting(String login, String serviceId, LocalDateTime dateTime) {
-        User userEntity = userDao.getByLogin(login);
+        User user = userDao.getByLogin(login);
+        Service service = serviceDao.getById(serviceId);
         Meeting meeting = new Meeting(UUID.randomUUID().toString(), null,
-                userEntity, null, dateTime);
+                user, null, service, dateTime);
         meetingDao.save(meeting);
         return true;
     }
