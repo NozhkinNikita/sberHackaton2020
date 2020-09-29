@@ -20,10 +20,10 @@ public class MeetingEntity implements BaseEntity {
 
     private String url;
 
-    @OneToOne(fetch = FetchType.LAZY, targetEntity = UserEntity.class, mappedBy = "clientId")
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = UserEntity.class)
     private UserEntity client;
 
-    @OneToOne(fetch = FetchType.LAZY, targetEntity = UserEntity.class, mappedBy = "employeeId")
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = UserEntity.class)
     private UserEntity employee;
 
     @Column(name="dateTime")

@@ -29,7 +29,7 @@ public class ClientController {
     @Autowired
     private UserDao userDao;
 
-    @GetMapping
+    @GetMapping(value = "/createNowMeeting")
     public boolean createNowMeeting(String login, String serviceId) {
         User user = userDao.getByLogin(login);
         Service service = serviceDao.getById(serviceId);
@@ -39,7 +39,7 @@ public class ClientController {
         return true;
     }
 
-    @GetMapping
+    @GetMapping(value = "/createScheduledMeeting")
     public boolean createScheduledMeeting(String login, String serviceId, LocalDateTime dateTime) {
         User user = userDao.getByLogin(login);
         Service service = serviceDao.getById(serviceId);
