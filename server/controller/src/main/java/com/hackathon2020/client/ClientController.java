@@ -49,8 +49,9 @@ public class ClientController {
         while (meeting.getEmployee() == null) {
             TimeUnit.SECONDS.sleep(3);
             meeting = meetingDao.getById(meeting.getId());
+            System.out.println("qqqq");
         }
-        return ResponseEntity.ok("123");
+        return ResponseEntity.ok(meeting.getUrl());
     }
 
     @GetMapping(value = "/{serviceId}/callScheduled")
