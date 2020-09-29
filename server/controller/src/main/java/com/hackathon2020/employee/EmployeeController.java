@@ -1,4 +1,4 @@
-package com.hackathon2020.client;
+package com.hackathon2020.employee;
 
 import com.hackathon2020.dao.MeetingDao;
 import com.hackathon2020.dao.ServiceDao;
@@ -14,15 +14,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @CrossOrigin
 @Controller
-@RequestMapping(value = "/client/services/")
-public class ClientController {
+@RequestMapping(value = "/employee/services/")
+public class EmployeeController {
 
     @Autowired
     private ServiceDao serviceDao;
@@ -39,18 +38,17 @@ public class ClientController {
     @Autowired
     private CredentialUtils credentialUtils;
 
-    @PostMapping(value = "/{serviceId}/call")
-    public ResponseEntity<String> createNowMeeting(@PathVariable String serviceId) {
+    @PostMapping(value = "/{serviceId}/join")
+    public ResponseEntity<String> joinMeeting(@PathVariable String meetingId) {
         User user = credentialUtils.getUserInfo();
-        Service service = serviceDao.getById(serviceId);
-        Meeting meeting = new Meeting(UUID.randomUUID().toString(), null,
-                user, null, service, LocalDateTime.now());
+        Meeting meeting = meetingDao.getById(meetingId);
+        meeting.setEmployee(user);
         meetingDao.save(meeting);
-        return ResponseEntity.ok("123");
+        return ResponseEntity.ok("321");
     }
 
-    @GetMapping(value = "/createScheduledMeeting")
-    public ResponseEntity<String> createScheduledMeeting(@PathVariable String serviceId, LocalDateTime dateTime) {
+    @GetMapping(value = "/{serviceId}/join")
+    public ResponseEntity<String> joinScheduledMeeting(@PathVariable String serviceId, LocalDateTime dateTime) {
         User user = credentialUtils.getUserInfo();
         Service service = serviceDao.getById(serviceId);
         Meeting meeting = new Meeting(UUID.randomUUID().toString(), null,

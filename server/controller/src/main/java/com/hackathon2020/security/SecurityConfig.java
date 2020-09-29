@@ -71,6 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/logout").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/client/**").hasRole(Role.CLIENT.name())
+                .antMatchers("/employee/**").hasRole(Role.EMPLOYEE.name())
                 .and()
 //                .formLogin().loginPage("/login").and()
                 .exceptionHandling()
