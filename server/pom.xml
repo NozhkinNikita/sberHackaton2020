@@ -32,6 +32,7 @@
         <jjwt.version>0.9.1</jjwt.version>
         <spring.context.version>5.0.9.RELEASE</spring.context.version>
         <spring.starter.data.jpa.version>2.0.5.RELEASE</spring.starter.data.jpa.version>
+        <spring.boot.websoket.version>2.3.4.RELEASE</spring.boot.websoket.version>
 
         <liquibase.version>3.8.0</liquibase.version>
         <hibernate.version>5.2.17.Final</hibernate.version>
@@ -96,6 +97,13 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
                 <version>${spring.context.version}</version>
+            </dependency>
+
+            <!-- Web socket  -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-websocket</artifactId>
+                <version>${spring.boot.websoket.version}</version>
             </dependency>
 
             <!-- Data -->
