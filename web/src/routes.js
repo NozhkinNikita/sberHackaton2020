@@ -23,11 +23,12 @@ import Icons from "views/Icons.jsx";
 import Maps from "views/Maps.jsx";
 import Notifications from "views/Notifications.jsx";
 import Upgrade from "views/Upgrade.jsx";
+import {isClient} from "./helpers/helper";
 
 const dashboardRoutes = [
   {
     path: "/table",
-    name: "Услуги",
+    name: isClient ?"Услуги" : "Заявки",
     icon: "pe-7s-note2",
     component: TableList,
     layout: "/admin"

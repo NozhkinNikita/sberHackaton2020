@@ -14,10 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @CrossOrigin
 @Controller
@@ -40,23 +40,28 @@ public class ClientController {
     private CredentialUtils credentialUtils;
 
     @PostMapping(value = "/{serviceId}/call")
-    public ResponseEntity<String> createNowMeeting(@PathVariable String serviceId) {
+    public ResponseEntity<?> createNowMeeting(@PathVariable String serviceId) throws InterruptedException {
+        User user = credentialUtils.getUserInfo();
+        Service service = serviceDao.getById(serviceId);
+        Meeting meeting = new Meeting(UUID.randomUUID().toString(), null,
+                user, null, service, LocalDateTime.now());
+        meetingDao.save(meeting);
+        while (meeting.getEmployee() == null) {
+            TimeUnit.SECONDS.sleep(3);
+            meeting = meetingDao.getById(meeting.getId());
+            System.out.println("qqqq");
+        }
+        return ResponseEntity.ok(new MeetingResponse(meeting.getUrl()));
+    }
+
+    @GetMapping(value = "/{serviceId}/callScheduled")
+    public ResponseEntity<String> createScheduledMeeting(@PathVariable String serviceId, LocalDateTime dateTime) {
         User user = credentialUtils.getUserInfo();
         Service service = serviceDao.getById(serviceId);
         Meeting meeting = new Meeting(UUID.randomUUID().toString(), null,
                 user, null, service, LocalDateTime.now());
         meetingDao.save(meeting);
         return ResponseEntity.ok("123");
-    }
-
-    @GetMapping(value = "/createScheduledMeeting")
-    public boolean createScheduledMeeting(String login, String serviceId, LocalDateTime dateTime) {
-        User user = userDao.getByLogin(login);
-        Service service = serviceDao.getById(serviceId);
-        Meeting meeting = new Meeting(UUID.randomUUID().toString(), null,
-                user, null, service, dateTime);
-        meetingDao.save(meeting);
-        return true;
     }
 
     @GetMapping(value= "/getUserScheduledMeetings")

@@ -8,7 +8,9 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @SpringBootApplication(scanBasePackages = {
         "com.hackathon2020.auth",
         "com.hackathon2020.client",
+        "com.hackathon2020.employee",
         "com.hackathon2020.config",
+        "com.hackathon2020.socket",
         "com.hackathon2020.security",
         "com.hackathon2020.security.jwt",
         "com.hackathon2020.converters",

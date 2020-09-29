@@ -17,46 +17,135 @@
 */
 import React, { Component } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
+import { NavItem, Nav, NavDropdown, MenuItem } from "react-bootstrap";
 
 import Card from "components/Card/Card.jsx";
 import {thArray, tdArray, host} from "variables/Variables.jsx";
+import {isClient} from "../helpers/helper";
+import {hostSocket} from "../variables/Variables";
 
 class TableList extends Component {
 
   constructor() {
     super();
 
-    this.state = {groups : []}
+    this.state = {isClient : isClient(),
+                  calls :[]}
+
+
   }
+
+
   componentDidMount() {
+    if (this.state.isClient) {
+
+      const requestOptions = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Kfmn ' + localStorage.getItem('token')
+        },
+      };
+
+      fetch(host + `/client/services`, requestOptions)
+          .then(response => {
+            console.log(response.json()
+                .then(user => {
+                  console.log(user);
+
+                }))
+          });
+
+    } else {
+
+      this.connection = new WebSocket(hostSocket + '/socket/websocket');
+
+let sock= this.connection;
+let _this = this;
+
+      this.connection.onopen = function () {
+
+        var command = "SUBSCRIBE";
+        var vspId = "xyi xyi xyi";
+
+        console.log("connect");
+
+        var send = {
+          command: command,
+          message: localStorage.getItem("login")
+        }
+        sock.send(JSON.stringify(send));
 
 
-    const requestOptions = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Kfmn ' + localStorage.getItem('token')
-      },
-    };
+      }
 
-    fetch(host + `/client/services`, requestOptions)
-        .then(response => {
-          console.log(response.json()
-              .then(user => {
-                console.log(user);
+      this.connection.onmessage = function (e){
+        console.log(e);
+        console.log(e.data.message);
 
-              }))
-        });
 
-alert(1)
+        switch (e.data.command){
+          case "list":{
+            _this.setState({calls:e.data.message})
+            break;
+          }
+        }
+      }
+
+
+    }
+  }
+
+  socketPrivet(){
 
   }
+
+    createMeeting() {
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Kfmn ' + localStorage.getItem('token'),
+                'Authentication': 'Kfmn ' + localStorage.getItem('token')
+            },
+            body: ""
+        };
+        let serviceId = "1";
+        fetch(host + "/client/services/" + serviceId + "/call" , requestOptions)
+            .then(response => {
+                alert("fuck yeah!!!");
+                response.json().then(json => {
+                    console.log(json);
+                })
+            });
+    }
+
+    joinMeeting() {
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Kfmn ' + localStorage.getItem('token'),
+                'Authentication': 'Kfmn ' + localStorage.getItem('token')
+            },
+            body: ""
+        };
+        let meetingId = "1";
+        fetch(host + "/employee/services/" + meetingId + "/join" , requestOptions)
+            .then(response => {
+                localStorage.clear();
+            });
+    }
+
 
   render() {
     return (
       <div className="content">
         <Grid fluid>
           <Row>
+
+            {this.state.isClient &&
+                <div>
             <Col md={12}>
               <Card
                 title="Striped Table with Hover"
@@ -64,6 +153,14 @@ alert(1)
                 ctTableFullWidth
                 ctTableResponsive
                 content={
+                    <div>
+                        <div>
+                            <Nav pullRight>
+                                <NavItem onClick={()=>{this.createMeeting()}} event Key={3} href="#">
+                                    Создать встречу
+                                </NavItem>
+                            </Nav>
+                        </div>
                   <Table striped hover>
                     <thead>
                       <tr>
@@ -84,6 +181,7 @@ alert(1)
                       })}
                     </tbody>
                   </Table>
+                    </div>
                 }
               />
             </Col>
@@ -119,10 +217,57 @@ alert(1)
                 }
               />
             </Col>
+                </div>}
+            {!this.state.isClient &&
+            <div>
+
+                <Nav pullRight>
+                    <NavItem onClick={()=>{this.joinMeeting()}} event Key={3} href="#">
+                        Присоединиться к встрече
+                    </NavItem>
+                </Nav>
+
+              <Col md={12}>
+                <Card
+                    title="Заявки"
+                    category="Выбирите заявку для звонка"
+                    ctTableFullWidth
+                    ctTableResponsive
+                    content={
+                      <div>
+                          <div className={"list-group"}>{this.printCalls()}</div>
+                      </div>
+                    }
+                />
+              </Col>
+
+            </div>}
           </Row>
         </Grid>
       </div>
     );
+  }
+
+  printCalls() {
+    let result = [];
+    for(let i=0;i<10;i++){
+      // result.push(<li onClick={()=>alert(i)} className={"list-group-item"}>i</li>);
+      result.push(
+          <a href="#" className="list-group-item list-group-item-action flex-column align-items-start">
+            <div className="d-flex w-100 justify-content-between">
+              <h5 className="mb-1">List group item heading</h5>
+              <small className="text-muted">3 days ago</small>
+            </div>
+            <p className="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
+              blandit.</p>
+            <small className="text-muted">Donec id elit non mi porta.</small>
+          </a>
+
+
+      );
+    }
+
+return result;
   }
 }
 
