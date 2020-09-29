@@ -2,17 +2,18 @@ package com.hackathon2020.dao;
 
 import com.hackathon2020.dao.filters.SearchCondition;
 import com.hackathon2020.dao.filters.SimpleCondition;
-import com.hackathon2020.domain.Service;
-import com.hackathon2020.entities.ServiceEntity;
+import com.hackathon2020.domain.Meeting;
+import com.hackathon2020.entities.MeetingEntity;
+import com.hackathon2020.entities.MeetingEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class ServiceDao extends CommonDao<Service, ServiceEntity> {
+public class MeetingDao extends CommonDao<Meeting, MeetingEntity> {
     @Override
-    public Class<ServiceEntity> getEntityClass() {
-        return ServiceEntity.class;
+    public Class<MeetingEntity> getEntityClass() {
+        return MeetingEntity.class;
     }
 
     @Override
@@ -21,11 +22,11 @@ public class ServiceDao extends CommonDao<Service, ServiceEntity> {
     }
 
     @Override
-    public void update(Service domain, List<String> removeIds) {
+    public void update(Meeting domain, List<String> removeIds) {
 
     }
 
-    public List<Service> getAll() {
+    public List<Meeting> getAll() {
         SimpleCondition condition = new SimpleCondition
                 .Builder()
                 .setSearchField("id")
@@ -34,12 +35,12 @@ public class ServiceDao extends CommonDao<Service, ServiceEntity> {
         return getByCondition(condition);
     }
 
-    public List<Service> getByGroupId(String groupId) {
+    public List<Meeting> getByUserId(String userId) {
         SimpleCondition condition = new SimpleCondition
                 .Builder()
-                .setSearchField("groupId")
+                .setSearchField("userId")
                 .setSearchCondition(SearchCondition.EQUALS)
-                .setSearchValue(groupId)
+                .setSearchValue(userId)
                 .build();
         return getByCondition(condition);
     }

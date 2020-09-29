@@ -15,10 +15,10 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
+import React, {Component} from "react";
+import {Route, Switch} from "react-router-dom";
 
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import {Formik, Field, Form, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 
 import NotificationSystem from "react-notification-system";
@@ -28,7 +28,7 @@ import Footer from "components/Footer/Footer";
 import Sidebar from "components/Sidebar/Sidebar";
 import FixedPlugin from "components/FixedPlugin/FixedPlugin.jsx";
 
-import { style } from "variables/Variables.jsx";
+import {style} from "variables/Variables.jsx";
 
 import routes from "routes.js";
 
@@ -38,227 +38,240 @@ import {OverlayTrigger} from "react-bootstrap";
 import {host} from "../variables/Variables";
 
 class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      _notificationSystem: null,
-      image: image,
-      color: "black",
-      hasImage: true,
-      fixedClasses: "dropdown show-dropdown open"
+    constructor(props) {
+        super(props);
+        this.state = {
+            _notificationSystem: null,
+            image: image,
+            color: "black",
+            hasImage: true,
+            fixedClasses: "dropdown show-dropdown open"
+        };
+    }
+
+    handleNotificationClick = position => {
+        var color = Math.floor(Math.random() * 4 + 1);
+        var level;
+        switch (color) {
+            case 1:
+                level = "success";
+                break;
+            case 2:
+                level = "warning";
+                break;
+            case 3:
+                level = "error";
+                break;
+            case 4:
+                level = "info";
+                break;
+            default:
+                break;
+        }
+        this.state._notificationSystem.addNotification({
+            title: <span data-notify="icon" className="pe-7s-gift"/>,
+            message: (
+                <div>
+                    Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for
+                    every web developer.
+                </div>
+            ),
+            level: level,
+            position: position,
+            autoDismiss: 15
+        });
     };
-  }
-  handleNotificationClick = position => {
-    var color = Math.floor(Math.random() * 4 + 1);
-    var level;
-    switch (color) {
-      case 1:
-        level = "success";
-        break;
-      case 2:
-        level = "warning";
-        break;
-      case 3:
-        level = "error";
-        break;
-      case 4:
-        level = "info";
-        break;
-      default:
-        break;
+    getRoutes = routes => {
+        return routes.map((prop, key) => {
+            if (prop.layout === "/admin") {
+                return (
+                    <Route
+                        path={prop.layout + prop.path}
+                        render={props => (
+                            <prop.component
+                                {...props}
+                                handleClick={this.handleNotificationClick}
+                            />
+                        )}
+                        key={key}
+                    />
+                );
+            } else {
+                return null;
+            }
+        });
+    };
+    getBrandText = path => {
+        for (let i = 0; i < routes.length; i++) {
+            if (
+                this.props.location.pathname.indexOf(
+                    routes[i].layout + routes[i].path
+                ) !== -1
+            ) {
+                return routes[i].name;
+            }
+        }
+        return "Brand";
+    };
+    handleImageClick = image => {
+        this.setState({image: image});
+    };
+    handleColorClick = color => {
+        this.setState({color: color});
+    };
+    handleHasImage = hasImage => {
+        this.setState({hasImage: hasImage});
+    };
+    handleFixedClick = () => {
+        if (this.state.fixedClasses === "dropdown") {
+            this.setState({fixedClasses: "dropdown show-dropdown open"});
+        } else {
+            this.setState({fixedClasses: "dropdown"});
+        }
+    };
+
+    componentDidMount() {
+        this.setState({_notificationSystem: this.refs.notificationSystem});
+        var _notificationSystem = this.refs.notificationSystem;
+        var color = Math.floor(Math.random() * 4 + 1);
+        var level;
+        switch (color) {
+            case 1:
+                level = "success";
+                break;
+            case 2:
+                level = "warning";
+                break;
+            case 3:
+                level = "error";
+                break;
+            case 4:
+                level = "info";
+                break;
+            default:
+                break;
+        }
+        // _notificationSystem.addNotification({
+        //   title: <span data-notify="icon" className="pe-7s-gift" />,
+        //   message: (
+        //     <div>
+        //       Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for
+        //       every web developer.
+        //     </div>
+        //   ),
+        //   level: level,
+        //   position: "tr",
+        //   autoDismiss: 15
+        // });
     }
-    this.state._notificationSystem.addNotification({
-      title: <span data-notify="icon" className="pe-7s-gift" />,
-      message: (
-        <div>
-          Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for
-          every web developer.
-        </div>
-      ),
-      level: level,
-      position: position,
-      autoDismiss: 15
-    });
-  };
-  getRoutes = routes => {
-    return routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
+
+    componentDidUpdate(e) {
+        if (
+            window.innerWidth < 993 &&
+            e.history.location.pathname !== e.location.pathname &&
+            document.documentElement.className.indexOf("nav-open") !== -1
+        ) {
+            document.documentElement.classList.toggle("nav-open");
+        }
+        if (e.history.action === "PUSH") {
+            document.documentElement.scrollTop = 0;
+            document.scrollingElement.scrollTop = 0;
+            this.refs.mainPanel.scrollTop = 0;
+        }
+    }
+
+    set() {
+        localStorage.setItem("user", 1);
+    }
+
+    render() {
         return (
-          <Route
-            path={prop.layout + prop.path}
-            render={props => (
-              <prop.component
-                {...props}
-                handleClick={this.handleNotificationClick}
-              />
-            )}
-            key={key}
-          />
-        );
-      } else {
-        return null;
-      }
-    });
-  };
-  getBrandText = path => {
-    for (let i = 0; i < routes.length; i++) {
-      if (
-        this.props.location.pathname.indexOf(
-          routes[i].layout + routes[i].path
-        ) !== -1
-      ) {
-        return routes[i].name;
-      }
+            <div>
+                <div className="alert alert-info">
+                    Username: test<br/>
+                    Password: test
+                </div>
+                <h2>Login</h2>
+                <Formik
+                    initialValues={{
+                        username: '',
+                        password: ''
+                    }}
+                    validationSchema={Yup.object().shape({
+                        username: Yup.string().required('Username is required'),
+                        password: Yup.string().required('Password is required')
+                    })}
+                    onSubmit={({username, password}, {setStatus, setSubmitting}) => {
+                        setStatus();
+
+
+                        const requestOptions = {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({username, password})
+                        };
+
+
+                        // return fetch(`http://localhost:3001/api`, requestOptions)
+                        return fetch(host + `/login`, requestOptions)
+                            .then(response => {
+                                console.log(response.json()
+                                    .then(user => {
+                                        localStorage.setItem('user', JSON.stringify(user));
+                                        localStorage.setItem('token',user.token);
+                                        this.props.action(true);
+                                    }))
+                                console.log();
+
+                                // store user details and jwt token in local storage to keep user logged in between page refreshes
+
+                                return;
+                            });
+
+
+                        // authenticationService.login(username, password)
+                        //     .then(
+                        //         user => {
+                        //             this.props.history.push({ from: { pathname: "/" }});
+                        //         },
+                        //         error => {
+                        //             setSubmitting(false);
+                        //             setStatus(error);
+                        //         }
+                        //     );
+                    }}
+                    render={({errors, status, touched, isSubmitting}) => (
+                        <Form>
+                            <div className="form-group">
+                                <label htmlFor="username">Username</label>
+                                <Field name="username" type="text"
+                                       className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')}/>
+                                <ErrorMessage name="username" component="div" className="invalid-feedback"/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="password">Password</label>
+                                <Field name="password" type="password"
+                                       className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')}/>
+                                <ErrorMessage name="password" component="div" className="invalid-feedback"/>
+                            </div>
+                            <div className="form-group">
+                                <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Login</button>
+                                {isSubmitting &&
+                                <img
+                                    src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+                                }
+                            </div>
+                            {status &&
+                            <div className={'alert alert-danger'}>{status}</div>
+                            }
+                        </Form>
+                    )}
+                />
+            </div>
+        )
     }
-    return "Brand";
-  };
-  handleImageClick = image => {
-    this.setState({ image: image });
-  };
-  handleColorClick = color => {
-    this.setState({ color: color });
-  };
-  handleHasImage = hasImage => {
-    this.setState({ hasImage: hasImage });
-  };
-  handleFixedClick = () => {
-    if (this.state.fixedClasses === "dropdown") {
-      this.setState({ fixedClasses: "dropdown show-dropdown open" });
-    } else {
-      this.setState({ fixedClasses: "dropdown" });
-    }
-  };
-  componentDidMount() {
-    this.setState({ _notificationSystem: this.refs.notificationSystem });
-    var _notificationSystem = this.refs.notificationSystem;
-    var color = Math.floor(Math.random() * 4 + 1);
-    var level;
-    switch (color) {
-      case 1:
-        level = "success";
-        break;
-      case 2:
-        level = "warning";
-        break;
-      case 3:
-        level = "error";
-        break;
-      case 4:
-        level = "info";
-        break;
-      default:
-        break;
-    }
-    // _notificationSystem.addNotification({
-    //   title: <span data-notify="icon" className="pe-7s-gift" />,
-    //   message: (
-    //     <div>
-    //       Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for
-    //       every web developer.
-    //     </div>
-    //   ),
-    //   level: level,
-    //   position: "tr",
-    //   autoDismiss: 15
-    // });
-  }
-  componentDidUpdate(e) {
-    if (
-      window.innerWidth < 993 &&
-      e.history.location.pathname !== e.location.pathname &&
-      document.documentElement.className.indexOf("nav-open") !== -1
-    ) {
-      document.documentElement.classList.toggle("nav-open");
-    }
-    if (e.history.action === "PUSH") {
-      document.documentElement.scrollTop = 0;
-      document.scrollingElement.scrollTop = 0;
-      this.refs.mainPanel.scrollTop = 0;
-    }
-  }
-
-  set(){
-    localStorage.setItem("user",1);
-  }
-
-  render() {
-      return (
-          <div>
-              <div className="alert alert-info">
-                  Username: test<br />
-                  Password: test
-              </div>
-              <h2>Login</h2>
-              <Formik
-                  initialValues={{
-                      username: '',
-                      password: ''
-                  }}
-                  validationSchema={Yup.object().shape({
-                      username: Yup.string().required('Username is required'),
-                      password: Yup.string().required('Password is required')
-                  })}
-                  onSubmit={({ username, password }, { setStatus, setSubmitting }) => {
-                      setStatus();
-
-
-                      const requestOptions = {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ username, password })
-                      };
-
-                      // return fetch(`http://localhost:3001/api`, requestOptions)
-                      return fetch(host + `/controller_war_exploded/login`, requestOptions)
-                          .then(user => {
-                              // store user details and jwt token in local storage to keep user logged in between page refreshes
-                              localStorage.setItem('user', JSON.stringify(user));
-
-                              return user;
-                          })                          .then(this.props.action(true))
-
-                          ;
-
-
-
-                      // authenticationService.login(username, password)
-                      //     .then(
-                      //         user => {
-                      //             this.props.history.push({ from: { pathname: "/" }});
-                      //         },
-                      //         error => {
-                      //             setSubmitting(false);
-                      //             setStatus(error);
-                      //         }
-                      //     );
-                  }}
-                  render={({ errors, status, touched, isSubmitting }) => (
-                      <Form>
-                          <div className="form-group">
-                              <label htmlFor="username">Username</label>
-                              <Field name="username" type="text" className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')} />
-                              <ErrorMessage name="username" component="div" className="invalid-feedback" />
-                          </div>
-                          <div className="form-group">
-                              <label htmlFor="password">Password</label>
-                              <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
-                              <ErrorMessage name="password" component="div" className="invalid-feedback" />
-                          </div>
-                          <div className="form-group">
-                              <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Login</button>
-                              {isSubmitting &&
-                              <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-                              }
-                          </div>
-                          {status &&
-                          <div className={'alert alert-danger'}>{status}</div>
-                          }
-                      </Form>
-                  )}
-              />
-          </div>
-      )
-  }
 }
 
 export default Login;

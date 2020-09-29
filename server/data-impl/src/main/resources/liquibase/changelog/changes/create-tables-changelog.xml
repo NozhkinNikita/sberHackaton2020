@@ -51,9 +51,58 @@
                                  referencedTableName="GROUP"
                                  referencedColumnNames="id"/>
 
+
+        <createTable tableName="MEETING">
+            <column name="id" type="NVARCHAR"/>
+            <column name="datetime" type="TIMESTAMP"/>
+            <column name="client_id" type="NVARCHAR"/>
+            <column name="employee_id" type="NVARCHAR"/>
+            <column name="service_id" type="NVARCHAR"/>
+            <column name="url" type="NVARCHAR"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="MEETING"
+                                 baseColumnNames="client_id"
+                                 constraintName="FK_MEETING_CLIENT"
+                                 referencedTableName="USER"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="MEETING"
+                                 baseColumnNames="employee_id"
+                                 constraintName="FK_MEETING_EMPLOYEE"
+                                 referencedTableName="USER"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="MEETING"
+                                 baseColumnNames="service_id"
+                                 constraintName="FK_MEETING_SERVICE"
+                                 referencedTableName="SERVICE"
+                                 referencedColumnNames="id"/>
+
         <rollback>
             <dropTable tableName="user"/>
         </rollback>
+
+        <createTable tableName="USER_GROUP">
+            <column name="id" type="NVARCHAR"/>
+            <column name="userId" type="NVARCHAR"/>
+            <column name="groupId" type="NVARCHAR"/>
+        </createTable>
+
+        <addNotNullConstraint tableName="USER_GROUP" columnName="id" columnDataType="NVARCHAR"/>
+        <addPrimaryKey tableName="USER_GROUP" columnNames="id" constraintName="USER_GROUP_PKEY"/>
+
+        <addForeignKeyConstraint baseTableName="USER_GROUP"
+                                 baseColumnNames="userId"
+                                 constraintName="FK_USER_GROUP_USER"
+                                 referencedTableName="USER"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="USER_GROUP"
+                                 baseColumnNames="groupId"
+                                 constraintName="FK_USER_GROUP_GROUP"
+                                 referencedTableName="GROUP"
+                                 referencedColumnNames="id"/>
 
     </changeSet>
 </databaseChangeLog>

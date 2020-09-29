@@ -17,8 +17,30 @@
 */
 import React, { Component } from "react";
 import { NavItem, Nav, NavDropdown, MenuItem } from "react-bootstrap";
+import {host} from "../../variables/Variables";
 
 class AdminNavbarLinks extends Component {
+    logout(){
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Kfmn ' + localStorage.getItem('token')
+            },
+            body: ""
+        };
+
+        fetch(host + `/logout`, requestOptions)
+            .then(response => {
+                        localStorage.clear();this.props.action(false)
+
+            });
+
+
+
+
+    }
   render() {
     const notification = (
       <div>
@@ -31,7 +53,7 @@ class AdminNavbarLinks extends Component {
     return (
       <div>
         <Nav pullRight>
-          <NavItem onClick={()=>{localStorage.clear();this.props.action(false)}} event Key={3} href="#">
+          <NavItem onClick={()=>{this.logout()}} event Key={3} href="#">
             Выйти
           </NavItem>
         </Nav>
