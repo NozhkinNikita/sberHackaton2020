@@ -2,27 +2,17 @@ package com.hackathon2020.client;
 
 public class MeetingRequest {
 
-    private String login;
-    private String serviceId;
+    private String jwt;
 
-    public MeetingRequest(String login, String serviceId) {
-        this.login = login;
-        this.serviceId = serviceId;
+    public MeetingRequest(String jwt) {
+        this.jwt = jwt;
     }
 
-    public String getLogin() {
-        return login;
+    public String getJwt() {
+        return jwt;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getServiceId() {
-        return serviceId;
-    }
-
-    public void setServiceId(String serviceId) {
-        this.serviceId = serviceId;
+    public void setJwt(String jwt) {
+        this.jwt = jwt;
     }
 }
