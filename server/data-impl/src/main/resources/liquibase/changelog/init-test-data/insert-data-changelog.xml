@@ -56,6 +56,12 @@
         </insert>
 
         <insert tableName="USER_GROUP">
+            <column name="id" valueNumeric="0"/>
+            <column name="userId" value="1"/>
+            <column name="groupId" value="1"/>
+        </insert>
+
+        <insert tableName="USER_GROUP">
             <column name="id" valueNumeric="1"/>
             <column name="userId" value="2"/>
             <column name="groupId" value="1"/>
