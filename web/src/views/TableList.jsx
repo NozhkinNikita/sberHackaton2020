@@ -195,7 +195,7 @@ send(){
                 <div>
             <Col md={12}>
               <Card
-                title="Услуги"
+                title={this.state.isClient ?"Услуги" : "Заявки"}
                 category=""
                 ctTableFullWidth
                 ctTableResponsive
