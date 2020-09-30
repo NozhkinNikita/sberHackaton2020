@@ -140,8 +140,18 @@ class JItsiConferece extends Component {
     }
 
     render() {
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Kfmn ' + localStorage.getItem('token'),
+                'Authentication': 'Kfmn ' + localStorage.getItem('token')
+            },
+            body: ""
+        };
+
         let _this = this;
-        fetch(host + `/meeting/services/` + this.getRoomName())
+        fetch(host + `/meeting/services/` + this.getRoomName(), requestOptions)
             .then(response => {
                 console.log(response)
                 _this.setState({
