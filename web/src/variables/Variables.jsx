@@ -599,7 +599,8 @@ var legendBar = {
 };
 
 // var host = "http://25.68.32.7:8080";
-var host = "http://25.12.148.203:8080";
+// var host = "http://25.12.148.203:8080";
+var host = "http://localhost:8080";
 var hostSocket = "ws://25.12.148.203:8080";
 
 module.exports = {

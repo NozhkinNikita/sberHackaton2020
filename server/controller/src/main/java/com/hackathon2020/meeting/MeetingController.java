@@ -31,6 +31,7 @@ public class MeetingController {
         if (meetingId.equals("1") && meetingDao.getAll().size() != 0) {
             meetingId = meetingDao.getAll().get(0).getId();
         }
+
         Meeting meeting = meetingDao.getById(meetingId);
         MeetingResponse meetingResponse = new MeetingResponse();
         meetingResponse.setServiceName(meeting.getService().getName());
