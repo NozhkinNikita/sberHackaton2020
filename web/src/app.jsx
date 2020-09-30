@@ -37,7 +37,7 @@ export class App extends Component {
                             props => <AdminLayout {...props} action={this.setAuth} />
 
                         }/>
-                        <Redirect from="/" to="/admin/dashboard"/>
+                        <Redirect from="/" to="/admin/table"/>
                     </Switch>
                 </BrowserRouter>
 
