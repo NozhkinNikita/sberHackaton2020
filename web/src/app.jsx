@@ -7,14 +7,12 @@ import JItsiConferece from "./layouts/JItsiConferece";
 export class App extends Component {
     constructor() {
         super();
-
         this.setAuth = this.setAuth.bind(this);
-
-
         this.state = {
             auth: this.hasUser()
         };
     }
+
     hasUser() {
         return localStorage.getItem('user') != null;
     }
@@ -24,7 +22,6 @@ export class App extends Component {
         console.log(this)
         console.log(this.state)
         this.setState({auth:value})
-
     }
 
     render() {
