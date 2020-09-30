@@ -33,4 +33,13 @@ public class UserGroupDao extends CommonDao<UserGroup, UserGroupEntity> {
                 .build();
         return getByCondition(condition);
     }
+
+    public List<UserGroup> getAll() {
+        SimpleCondition condition = new SimpleCondition
+                .Builder()
+                .setSearchField("id")
+                .setSearchCondition(SearchCondition.NOT_NULL)
+                .build();
+        return getByCondition(condition);
+    }
 }

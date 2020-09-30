@@ -5,6 +5,7 @@ import com.hackathon2020.dao.filters.Operation;
 import com.hackathon2020.dao.filters.SearchCondition;
 import com.hackathon2020.dao.filters.SimpleCondition;
 import com.hackathon2020.domain.Meeting;
+import com.hackathon2020.domain.Service;
 import com.hackathon2020.domain.User;
 import com.hackathon2020.domain.UserGroup;
 import com.hackathon2020.entities.MeetingEntity;
@@ -22,6 +23,9 @@ public class MeetingDao extends CommonDao<Meeting, MeetingEntity> {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private ServiceDao serviceDao;
 
     @Override
     public Class<MeetingEntity> getEntityClass() {
@@ -60,26 +64,28 @@ public class MeetingDao extends CommonDao<Meeting, MeetingEntity> {
     public List<Meeting> getActiveMeetingsByEmployeeLogin(String login) {
         User user = userDao.getByLogin(login);
         List<UserGroup> userGroups = userGroupDao.getByUserId(user.getId());
-
-
-
-
-
-//        SimpleCondition userGroupCondition = new SimpleCondition.Builder()
-//                .setSearchField("user.login")
-//                .setSearchCondition(SearchCondition.EQUALS)
-//                .setSearchValue(login)
-//                .build();
-//
-//        List<UserGroup> userGroups = userGroupDao.getByCondition(userGroupCondition);
-        ComplexCondition condition = new ComplexCondition.Builder()
+        ComplexCondition servicesCondition = new ComplexCondition.Builder()
                 .setOperation(Operation.OR)
                 .setConditions(
                         userGroups.stream().map(ug ->
+                            new SimpleCondition.Builder()
+                                    .setSearchField("groupId")
+                                    .setSearchCondition(SearchCondition.EQUALS)
+                                    .setSearchValue(ug.getGroupId())
+                                    .build()
+                        ).collect(Collectors.toList())
+                )
+                .build();
+        List<Service> services = serviceDao.getByCondition(servicesCondition);
+
+        ComplexCondition condition = new ComplexCondition.Builder()
+                .setOperation(Operation.OR)
+                .setConditions(
+                        services.stream().map(s ->
                                 new SimpleCondition.Builder()
-                                        .setSearchField("service.groupId")
+                                        .setSearchField("service.id")
                                         .setSearchCondition(SearchCondition.EQUALS)
-                                        .setSearchValue(ug.getGroupId())
+                                        .setSearchValue(s.getGroupId())
                                         .build()
                         ).collect(Collectors.toList())
                 ).build();
