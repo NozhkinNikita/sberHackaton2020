@@ -16,7 +16,10 @@ class JItsiConferece extends Component {
             image: image,
             color: "black",
             hasImage: true,
-            fixedClasses: "dropdown show-dropdown open"
+            fixedClasses: "dropdown show-dropdown open",
+            serviceName: "",
+            clientLogin: "",
+            employeeLogin: ""
         };
     }
 
@@ -137,11 +140,17 @@ class JItsiConferece extends Component {
     }
 
     render() {
-      fetch(host + `/meeting/services/meetings/this.getRoomName()`)
-          .then(response => {
-            console.log(response)
-            return;
-          });
+        let _this = this;
+        fetch(host + `/meeting/services/` + this.getRoomName())
+            .then(response => {
+                console.log(response)
+                _this.setState({
+                    serviceName: "",
+                    clientLogin: "",
+                    employeeLogin: ""
+                });
+                return;
+            });
 
         return (
             <div className="wrapper">
