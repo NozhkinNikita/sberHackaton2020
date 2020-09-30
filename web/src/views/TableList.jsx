@@ -24,6 +24,7 @@ import {thArray, tdArray, host} from "variables/Variables.jsx";
 import {isClient} from "../helpers/helper";
 import {hostSocket} from "../variables/Variables";
 
+import Loader from 'react-loader-spinner'
 class TableList extends Component {
 
   constructor() {
@@ -81,12 +82,23 @@ let _this = this;
 
       this.connection.onmessage = function (e){
         console.log(e);
-        console.log(e.data.message);
+        console.log(e.data);
 
 
-        switch (e.data.command){
-          case "list":{
-            _this.setState({calls:e.data.message})
+        console.log("66666666666666");
+        console.log(typeof e.data);
+
+        let data  = JSON.parse(e.data);
+        console.log(data);
+
+        console.log(JSON.parse(data.message));
+
+
+        switch (data.command){
+          case "LIST":{
+              console.log("2222222");
+              console.log(data.message);
+            _this.setState({calls:JSON.parse(data.message)})
             break;
           }
         }
@@ -101,6 +113,7 @@ let _this = this;
   }
 
     createMeeting() {
+
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -118,9 +131,12 @@ let _this = this;
                     window.location.replace(json.url);
                 })
             });
+
+
     }
 
-    joinMeeting() {
+    joinMeeting(meetingId) {
+      // alert(meetingId)
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -130,7 +146,6 @@ let _this = this;
             },
             body: ""
         };
-        let meetingId = "1";
         fetch(host + "/employee/services/" + meetingId + "/join" , requestOptions)
             .then(response => {
                 response.json().then(json => {
@@ -146,7 +161,15 @@ let _this = this;
       <div className="content">
         <Grid fluid>
           <Row>
-
+              <div className={"spinner"}>
+                <Loader
+                  type="Puff"
+                  color="#00BFFF"
+                  height={100}
+                  width={100}
+                  timeout={30000} //3 secs
+                 />
+              </div>
             {this.state.isClient &&
                 <div>
             <Col md={12}>
@@ -253,17 +276,21 @@ let _this = this;
 
   printCalls() {
     let result = [];
-    for(let i=0;i<10;i++){
+
+    console.log("5555555555");
+    console.log(this.state.calls);
+    console.log(this.state.calls[0]);
+
+
+    for(let i=0;i<this.state.calls.length;i++){
       // result.push(<li onClick={()=>alert(i)} className={"list-group-item"}>i</li>);
       result.push(
-          <a href="#" className="list-group-item list-group-item-action flex-column align-items-start">
+          <a href="#" onClick={()=>this.joinMeeting(this.state.calls[i].id)} className="list-group-item list-group-item-action flex-column align-items-start">
             <div className="d-flex w-100 justify-content-between">
-              <h5 className="mb-1">List group item heading</h5>
-              <small className="text-muted">3 days ago</small>
+              <h5 className="mb-1">{this.state.calls[i].service.name}</h5>
+              <small className="text-muted">{this.state.calls[i].dateTime}</small>
             </div>
-            <p className="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
-              blandit.</p>
-            <small className="text-muted">Donec id elit non mi porta.</small>
+            <p className="mb-1">{this.state.calls[i].client.login}</p>
           </a>
 
 
