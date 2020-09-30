@@ -1,9 +1,11 @@
 package com.hackathon2020.employee;
 
 import com.hackathon2020.client.MeetingResponse;
+import com.hackathon2020.dao.GroupDao;
 import com.hackathon2020.dao.MeetingDao;
 import com.hackathon2020.dao.ServiceDao;
 import com.hackathon2020.dao.UserDao;
+import com.hackathon2020.domain.Group;
 import com.hackathon2020.domain.Meeting;
 import com.hackathon2020.domain.Service;
 import com.hackathon2020.domain.User;
@@ -27,9 +29,6 @@ public class EmployeeController {
     private ServiceDao serviceDao;
 
     @Autowired
-    private ServiceDao groupDao;
-
-    @Autowired
     private MeetingDao meetingDao;
 
     @Autowired
@@ -46,7 +45,7 @@ public class EmployeeController {
         }
         Meeting meeting = meetingDao.getById(meetingId);
         meeting.setEmployee(user);
-        String url = "fishingsite/" + UUID.randomUUID().toString();
+        String url = "fishingsite/" + meetingId;
         meeting.setUrl(url);
         meetingDao.update(meeting);
         return ResponseEntity.ok(new MeetingResponse(url));
