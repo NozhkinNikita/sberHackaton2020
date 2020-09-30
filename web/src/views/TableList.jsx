@@ -24,6 +24,7 @@ import {thArray, tdArray, host} from "variables/Variables.jsx";
 import {isClient} from "../helpers/helper";
 import {hostSocket} from "../variables/Variables";
 
+import Loader from 'react-loader-spinner'
 class TableList extends Component {
 
   constructor() {
@@ -112,6 +113,7 @@ let _this = this;
   }
 
     createMeeting() {
+
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -129,6 +131,8 @@ let _this = this;
                     window.location.replace(json.url);
                 })
             });
+
+
     }
 
     joinMeeting(meetingId) {
@@ -157,7 +161,15 @@ let _this = this;
       <div className="content">
         <Grid fluid>
           <Row>
-
+              <div className={"spinner"}>
+                <Loader
+                  type="Puff"
+                  color="#00BFFF"
+                  height={100}
+                  width={100}
+                  timeout={30000} //3 secs
+                 />
+              </div>
             {this.state.isClient &&
                 <div>
             <Col md={12}>
