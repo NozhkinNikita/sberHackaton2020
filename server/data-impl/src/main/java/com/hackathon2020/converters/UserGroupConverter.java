@@ -1,10 +1,6 @@
 package com.hackathon2020.converters;
 
-import com.hackathon2020.domain.Group;
-import com.hackathon2020.domain.User;
 import com.hackathon2020.domain.UserGroup;
-import com.hackathon2020.entities.GroupEntity;
-import com.hackathon2020.entities.UserEntity;
 import com.hackathon2020.entities.UserGroupEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,25 +24,25 @@ public class UserGroupConverter extends Converter<UserGroup, UserGroupEntity> {
         return UserGroupEntity.class;
     }
 
-    @Override
-    public void toDomainObject(UserGroupEntity entity, UserGroup domain) {
-        domain.setId(entity.getId());
-        User user = new User();
-        userConverter.toDomainObject(entity.getUser(), user);
-        domain.setUser(user);
-        Group group = new Group();
-        groupConverter.toDomainObject(entity.getGroup(), group);
-        domain.setGroup(group);
-    }
-
-    @Override
-    public void toEntityObject(UserGroup domain, UserGroupEntity entity) {
-        entity.setId(domain.getId());
-        UserEntity user = new UserEntity();
-        userConverter.toEntityObject(domain.getUser(), user);
-        entity.setUser(user);
-        GroupEntity group = new GroupEntity();
-        groupConverter.toEntityObject(domain.getGroup(), group);
-        entity.setGroup(group);
-    }
+//    @Override
+//    public void toDomainObject(UserGroupEntity entity, UserGroup domain) {
+//        domain.setId(entity.getId());
+//        User user = new User();
+//        userConverter.toDomainObject(entity.getUser(), user);
+//        domain.setUser(user);
+//        Group group = new Group();
+//        groupConverter.toDomainObject(entity.getGroup(), group);
+//        domain.setGroup(group);
+//    }
+//
+//    @Override
+//    public void toEntityObject(UserGroup domain, UserGroupEntity entity) {
+//        entity.setId(domain.getId());
+//        UserEntity user = new UserEntity();
+//        userConverter.toEntityObject(domain.getUser(), user);
+//        entity.setUser(user);
+//        GroupEntity group = new GroupEntity();
+//        groupConverter.toEntityObject(domain.getGroup(), group);
+//        entity.setGroup(group);
+//    }
 }

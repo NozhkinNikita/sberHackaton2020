@@ -34,11 +34,11 @@ public class MeetingEntity implements BaseEntity {
 
     @Override
     public List<String> getBaseFields() {
-        return Arrays.asList("id", "name");
+        return Arrays.asList("id", "name", "dateTime");
     }
 
     @Override
     public List<String> getJoinFields() {
-        return Arrays.asList("client", "employee");
+        return Arrays.asList("client", "employee", "service");
     }
 }

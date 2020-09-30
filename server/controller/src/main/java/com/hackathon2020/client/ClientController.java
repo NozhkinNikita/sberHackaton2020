@@ -8,6 +8,7 @@ import com.hackathon2020.domain.Service;
 import com.hackathon2020.domain.User;
 import com.hackathon2020.security.CredentialUtils;
 import com.hackathon2020.security.jwt.JwtTokenUtil;
+import com.hackathon2020.socket.WebSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,9 @@ public class ClientController {
     @Autowired
     private CredentialUtils credentialUtils;
 
+    @Autowired
+    private WebSocketHandler webSocketHandler;
+
     @PostMapping(value = "/{serviceId}/call")
     public ResponseEntity<?> createNowMeeting(@PathVariable String serviceId) throws InterruptedException {
         User user = credentialUtils.getUserInfo();
@@ -46,6 +50,7 @@ public class ClientController {
         Meeting meeting = new Meeting(UUID.randomUUID().toString(), null,
                 user, null, service, LocalDateTime.now());
         meetingDao.save(meeting);
+        webSocketHandler.sendList(user.getLogin(), null);
         while (meeting.getEmployee() == null) {
             TimeUnit.SECONDS.sleep(3);
             meeting = meetingDao.getById(meeting.getId());

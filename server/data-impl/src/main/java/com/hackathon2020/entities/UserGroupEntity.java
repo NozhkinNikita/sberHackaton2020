@@ -6,9 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,21 +21,24 @@ public class UserGroupEntity implements BaseEntity {
     @Id
     private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    private UserEntity user;
-
-    @ManyToOne
-    @JoinColumn(name = "groupId")
-    private GroupEntity group;
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "userId")
+//    private UserEntity user;
+//
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "groupId")
+//    private GroupEntity group;
+    private String userId;
+    private String groupId;
 
     @Override
     public List<String> getBaseFields() {
-        return Arrays.asList("id");
+        return Arrays.asList("id", "userId", "groupId");
     }
 
     @Override
     public List<String> getJoinFields() {
-        return Arrays.asList("user", "group");
+//        return Arrays.asList("user", "group");
+        return new ArrayList<>(0);
     }
 }

@@ -9,8 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserGroup {
     private String id;
+    private String userId;
+    private String groupId;
 
-    private User user;
-
-    private Group group;
+//    private User user;
+//
+//    private Group group;
 }
