@@ -231,7 +231,7 @@ send(){
               <Col md={12}>
                 <Card
                     title="Заявки"
-                    category="Выбирите заявку для звонка"
+                    category="Выберите заявку для звонка"
                     ctTableFullWidth
                     ctTableResponsive
                     content={
@@ -282,13 +282,15 @@ return result;
         for(let i=0;i<this.state.services.length;i++){
             // result.push(<li onClick={()=>alert(i)} className={"list-group-item"}>i</li>);
             result.push(
-                <a href="#" onClick={()=>this.createMeeting(this.state.services[i].id)} className="list-group-item list-group-item-action flex-column align-items-start">
+                <div className="list-group-item list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
                         <h5 className="mb-1">{this.state.services[i].name}</h5>
                         {/*<small className="text-muted">{this.state.services[i].name}</small>*/}
                     </div>
-                    <p className="mb-1">Позвонить</p>
-                </a>
+                    <a href="#" onClick={()=>this.createMeeting(this.state.services[i].id)}>
+                        <p className="mb-1">Позвонить</p>
+                    </a>
+                </div>
 
 
             );

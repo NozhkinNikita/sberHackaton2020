@@ -45,14 +45,38 @@
 
         <insert tableName="SERVICE">
             <column name="id" valueNumeric="1"/>
-            <column name="name" value="servise1"/>
+            <column name="name" value="ПЛАТЕЖИ (квартплата, телефон, ГИБДД и др.)"/>
             <column name="groupId" value="1"/>
         </insert>
 
         <insert tableName="SERVICE">
             <column name="id" valueNumeric="2"/>
-            <column name="name" value="servise2"/>
+            <column name="name" value="КАРТЫ (подать заявку на открытие, перевыпуск, блокировку)"/>
             <column name="groupId" value="2"/>
+        </insert>
+
+        <insert tableName="SERVICE">
+            <column name="id" valueNumeric="3"/>
+            <column name="name" value="КРЕДИТЫ (потреб. кредит, ипотека, автокредит)"/>
+            <column name="groupId" value="2"/>
+        </insert>
+
+        <insert tableName="SERVICE">
+            <column name="id" valueNumeric="4"/>
+            <column name="name" value="ВКЛАДЫ (сберегательные сертификаты, заявка на закрытие)"/>
+            <column name="groupId" value="1"/>
+        </insert>
+
+        <insert tableName="SERVICE">
+            <column name="id" valueNumeric="5"/>
+            <column name="name" value="СПРАВКИ (выписки, обращения)"/>
+            <column name="groupId" value="2"/>
+        </insert>
+
+        <insert tableName="SERVICE">
+            <column name="id" valueNumeric="6"/>
+            <column name="name" value="КОМПЕНСАЦИИ, ДОВЕРЕННОСТИ"/>
+            <column name="groupId" value="1"/>
         </insert>
 
         <insert tableName="USER_GROUP">

@@ -232,17 +232,6 @@ class Login extends Component {
                                 return;
                             });
 
-
-                        // authenticationService.login(username, password)
-                        //     .then(
-                        //         user => {
-                        //             this.props.history.push({ from: { pathname: "/" }});
-                        //         },
-                        //         error => {
-                        //             setSubmitting(false);
-                        //             setStatus(error);
-                        //         }
-                        //     );
                     }}
                     render={({errors, status, touched, isSubmitting}) => (
                         <Form>
