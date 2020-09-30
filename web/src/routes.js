@@ -28,7 +28,7 @@ import {isClient} from "./helpers/helper";
 const dashboardRoutes = [
   {
     path: "/table",
-    name: isClient ?"Услуги" : "Заявки",
+    name: isClient ? "Услуги" : "Заявки",
     icon: "pe-7s-note2",
     component: TableList,
     layout: "/admin"

@@ -186,76 +186,88 @@ class Login extends Component {
 
     render() {
         return (
-            <div>
-                <h2>Login</h2>
-                <Formik
-                    initialValues={{
-                        username: '',
-                        password: ''
-                    }}
-                    validationSchema={Yup.object().shape({
-                        username: Yup.string().required('Username is required'),
-                        password: Yup.string().required('Password is required')
-                    })}
-                    onSubmit={({username, password}, {setStatus, setSubmitting}) => {
-                        setStatus();
+
+            <div className="wrapper">
+                <NotificationSystem ref="notificationSystem" style={style} />
+                <Sidebar {...this.props} routes={routes} image={this.state.image}
+                         color={this.state.color}
+                         hasImage={this.state.hasImage}/>
+                <div id="main-panel" className="main-panel" ref="mainPanel">
+                    <div>
+                        <h2 align={"center"}>Login</h2>
+                        <Formik align={"center"}
+                            initialValues={{
+                                username: '',
+                                password: ''
+                            }}
+                            validationSchema={Yup.object().shape({
+                                username: Yup.string().required('Username is required'),
+                                password: Yup.string().required('Password is required')
+                            })}
+                            onSubmit={({username, password}, {setStatus, setSubmitting}) => {
+                                setStatus();
 
 
-                        const requestOptions = {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({username, password})
-                        };
+                                const requestOptions = {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({username, password})
+                                };
 
 
-                        // return fetch(`http://localhost:3001/api`, requestOptions)
-                        return fetch(host + `/login`, requestOptions)
-                            .then(response => {
-                                console.log(response.json()
-                                    .then(user => {
-                                        localStorage.setItem('user', JSON.stringify(user));
-                                        localStorage.setItem('token',user.token);
-                                        localStorage.setItem('role',user.role);
-                                        localStorage.setItem('login',user.login);
-                                        this.props.action(true);
-                                    }))
-                                console.log();
+                                // return fetch(`http://localhost:3001/api`, requestOptions)
+                                return fetch(host + `/login`, requestOptions)
+                                    .then(response => {
+                                        console.log(response.json()
+                                            .then(user => {
+                                                localStorage.setItem('user', JSON.stringify(user));
+                                                localStorage.setItem('token',user.token);
+                                                localStorage.setItem('role',user.role);
+                                                localStorage.setItem('login',user.login);
+                                                this.props.action(true);
+                                            }))
+                                        console.log();
 
-                                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                                        // store user details and jwt token in local storage to keep user logged in between page refreshes
 
-                                return;
-                            });
+                                        return;
+                                    });
 
-                    }}
-                    render={({errors, status, touched, isSubmitting}) => (
-                        <Form>
-                            <div className="form-group">
-                                <label htmlFor="username">Username</label>
-                                <Field name="username" type="text"
-                                       className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')}/>
-                                <ErrorMessage name="username" component="div" className="invalid-feedback"/>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="password">Password</label>
-                                <Field name="password" type="password"
-                                       className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')}/>
-                                <ErrorMessage name="password" component="div" className="invalid-feedback"/>
-                            </div>
-                            <div className="form-group">
-                                <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Login</button>
-                                {isSubmitting &&
-                                <img
-                                    src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
-                                }
-                            </div>
-                            {status &&
-                            <div className={'alert alert-danger'}>{status}</div>
-                            }
-                        </Form>
-                    )}
-                />
+                            }}
+                            render={({errors, status, touched, isSubmitting}) => (
+                                <Form align={"center"}>
+                                    <div className="form-group" align={"center"}>
+                                        <label htmlFor="username">Username</label>
+                                        <Field name="username" type="text"
+                                               style={{width: '20%'}}
+                                               className={'short-field form-control' + (errors.username && touched.username ? ' is-invalid' : '')}/>
+                                        <ErrorMessage name="username" component="div" className="invalid-feedback"/>
+                                    </div>
+                                    <div className="form-group" align={"center"}>
+                                        <label htmlFor="password">Password</label>
+                                        <Field name="password" type="password" align={"center"}
+                                               style={{width: '20%'}}
+                                               className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')}/>
+                                        <ErrorMessage name="password" component="div" className="invalid-feedback"/>
+                                    </div>
+                                    <div className="form-group" align={"center"}>
+                                        <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Login</button>
+                                        {isSubmitting &&
+                                        <img
+                                            src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+                                        }
+                                    </div>
+                                    {status &&
+                                    <div className={'alert alert-danger'}>{status}</div>
+                                    }
+                                </Form>
+                            )}
+                        />
+                    </div>
+                    <Switch>{this.getRoutes(routes)}</Switch>
+                </div>
             </div>
         )
     }
