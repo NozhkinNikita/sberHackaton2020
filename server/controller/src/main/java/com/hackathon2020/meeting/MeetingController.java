@@ -26,7 +26,7 @@ public class MeetingController {
     @Autowired
     private MeetingDao meetingDao;
 
-    @PostMapping(value = "/meetings/{meetingId}")
+    @PostMapping(value = "/{meetingId}")
     public ResponseEntity<MeetingResponse> getMeeting(@PathVariable String meetingId) {
         if (meetingId.equals("1") && meetingDao.getAll().size() != 0) {
             meetingId = meetingDao.getAll().get(0).getId();
