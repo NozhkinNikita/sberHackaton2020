@@ -32,6 +32,7 @@ class TableList extends Component {
 
     this.state = {isClient : isClient(),
                   calls :[],
+        services:[],
                 showSpinner: false
     }
 
@@ -54,6 +55,7 @@ class TableList extends Component {
           .then(response => {
             console.log(response.json()
                 .then(user => {
+                    this.setState({services:user})
                   console.log(user);
 
                 }))
@@ -114,7 +116,7 @@ let _this = this;
 
   }
 
-    createMeeting() {
+    createMeeting(serviceId) {
         this.setState({showSpinner: true});
 
         const requestOptions = {
@@ -126,7 +128,6 @@ let _this = this;
             },
             body: ""
         };
-        let serviceId = "1";
         fetch(host + "/client/services/" + serviceId + "/call" , requestOptions)
             .then(response => {
                 response.json().then(json => {
@@ -194,75 +195,26 @@ send(){
                 <div>
             <Col md={12}>
               <Card
-                title="Striped Table with Hover"
-                category="Here is a subtitle for this table"
+                title="Услуги"
+                category=""
                 ctTableFullWidth
                 ctTableResponsive
                 content={
                     <div>
-                        <div>
-                            <Nav pullRight>
-                                <NavItem onClick={()=>{this.createMeeting()}} event Key={3} href="#">
-                                    Создать встречу
-                                </NavItem>
-                            </Nav>
-                        </div>
-                  <Table striped hover>
-                    <thead>
-                      <tr>
-                        {thArray.map((prop, key) => {
-                          return <th key={key}>{prop}</th>;
-                        })}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {tdArray.map((prop, key) => {
-                        return (
-                          <tr key={key}>
-                            {prop.map((prop, key) => {
-                              return <td key={key}>{prop}</td>;
-                            })}
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
+                        {/*<div>*/}
+                        {/*    <Nav pullRight>*/}
+                        {/*        <NavItem onClick={()=>{this.createMeeting()}} event Key={3} href="#">*/}
+                        {/*            Создать встречу*/}
+                        {/*        </NavItem>*/}
+                        {/*    </Nav>*/}
+                        {/*</div>*/}
+
+                        <div className={"list-group"}>{this.printServices()}</div>
                     </div>
                 }
               />
             </Col>
 
-            <Col md={12}>
-              <Card
-                plain
-                title="Striped Table with Hover"
-                category="Here is a subtitle for this table"
-                ctTableFullWidth
-                ctTableResponsive
-                content={
-                  <Table hover>
-                    <thead>
-                      <tr>
-                        {thArray.map((prop, key) => {
-                          return <th key={key}>{prop}</th>;
-                        })}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {tdArray.map((prop, key) => {
-                        return (
-                          <tr key={key}>
-                            {prop.map((prop, key) => {
-                              return <td key={key}>{prop}</td>;
-                            })}
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
-                }
-              />
-            </Col>
                 </div>}
             {!this.state.isClient &&
             <div>
@@ -322,6 +274,29 @@ send(){
 
 return result;
   }
+
+    printServices() {
+        let result = [];
+        console.log(444)
+        console.log(this.state.services);
+        for(let i=0;i<this.state.services.length;i++){
+            // result.push(<li onClick={()=>alert(i)} className={"list-group-item"}>i</li>);
+            result.push(
+                <a href="#" onClick={()=>this.createMeeting(this.state.services[i].id)} className="list-group-item list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">{this.state.services[i].name}</h5>
+                        {/*<small className="text-muted">{this.state.services[i].name}</small>*/}
+                    </div>
+                    <p className="mb-1">Позвонить</p>
+                </a>
+
+
+            );
+        }
+
+        return result;
+    }
+
 }
 
 export default TableList;
