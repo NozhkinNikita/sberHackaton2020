@@ -599,9 +599,8 @@ var legendBar = {
 };
 
 // var host = "http://25.68.32.7:8080";
-// var host = "http://25.12.148.203:8080";
-var host = "http://localhost:8080";
-var hostSocket = "ws://25.12.148.203:8080";
+var host = "http://25.54.86.121:8080";
+  var hostSocket = "ws://25.54.86.121:8080";
 
 module.exports = {
   style, // For notifications (App container and Notifications view)
