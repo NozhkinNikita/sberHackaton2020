@@ -31,7 +31,9 @@ class TableList extends Component {
     super();
 
     this.state = {isClient : isClient(),
-                  calls :[]}
+                  calls :[],
+                showSpinner: false
+    }
 
 
   }
@@ -113,6 +115,7 @@ let _this = this;
   }
 
     createMeeting() {
+        this.setState({showSpinner: true});
 
         const requestOptions = {
             method: 'POST',
@@ -127,16 +130,30 @@ let _this = this;
         fetch(host + "/client/services/" + serviceId + "/call" , requestOptions)
             .then(response => {
                 response.json().then(json => {
+                    this.setState({showSpinner: false});
                     console.log(json);
                     window.location.replace(json.url);
+                }).catch(e=>{
+                    this.setState({showSpinner: false});
                 })
-            });
+            }).catch(e=>{
+            this.setState({showSpinner: false});
+        });
 
 
     }
+send(){
 
+
+      this.connection.send("12345")
+
+  this.setState({showSpinner: true});
+
+
+  }
     joinMeeting(meetingId) {
-      // alert(meetingId)
+      // alert
+
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -161,15 +178,18 @@ let _this = this;
       <div className="content">
         <Grid fluid>
           <Row>
+              { this.state.showSpinner &&
+              <div className={"spinner-wrapper"}>
               <div className={"spinner"}>
                 <Loader
                   type="Puff"
                   color="#00BFFF"
                   height={100}
                   width={100}
-                  timeout={30000} //3 secs
+                  timeout={90000} //3 secs
                  />
               </div>
+              </div>}
             {this.state.isClient &&
                 <div>
             <Col md={12}>
@@ -246,6 +266,9 @@ let _this = this;
                 </div>}
             {!this.state.isClient &&
             <div>
+
+                <button onClick={()=>this.send()}>12345</button>
+
 
                 <Nav pullRight>
                     <NavItem onClick={()=>{this.joinMeeting()}} event Key={3} href="#">
